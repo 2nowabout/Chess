@@ -14,6 +14,8 @@ public abstract class Chesspieces {
 
     protected boolean white;
 
+    protected boolean isPawn;
+
     protected boolean isKing;
 
     protected boolean dead = false;
@@ -33,6 +35,7 @@ public abstract class Chesspieces {
         this.x = x;
         this.y = y;
         isKing = false;
+        isPawn = false;
     }
 
     public abstract void calculateMoves(List<Tile> tiles);
@@ -55,4 +58,5 @@ public abstract class Chesspieces {
     public boolean isDead() { return dead; }
     public void setDead(boolean dead) { this.dead = dead; }
     public boolean isKing() { return isKing; }
+    public boolean isPawn() { return isPawn; }
 }

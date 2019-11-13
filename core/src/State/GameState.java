@@ -2,6 +2,7 @@ package State;
 
 import Functions.GenerateBord;
 import Objects.ChessPieces.King;
+import Objects.ChessPieces.Pawn;
 import Objects.Tile;
 import SaveLibraries.Postition;
 import com.badlogic.gdx.Gdx;
@@ -17,8 +18,6 @@ public class GameState extends State {
     private GameStateManager gsm;
 
     private List<Tile> bord;
-    private boolean wit = true;
-    private boolean clicked = false;
     private boolean turn = true;
     private boolean clickedOnChesspiece = false;
     private List<Postition> canMovePosition;
@@ -52,6 +51,7 @@ public class GameState extends State {
                         canMovePosition = tile.getChesspieces().getPossibleMoves();
                         clickedOnChesspiece = true;
                         selectedChessPiece = tile;
+
                     }
                 }
             }
@@ -60,26 +60,28 @@ public class GameState extends State {
                     if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
                         if (tile.hasChesspiece) {
                             if (selectedChessPiece.getChesspieces().getColor() != tile.getChesspieces().getColor() && tile.canMoveHere) {
+                                tile.setChesspieces(selectedChessPiece.getChesspieces());
                                 tile.removeChestpiece();
                                 checkKings();
                                 checkWin();
+                                clickedOnChesspiece = false;
                             }
-                            clickedOnChesspiece = false;
                         }
-                    }
-                    if (!tile.hasChesspiece && tile.canMoveHere) {
-                        tile.setChesspieces(selectedChessPiece.getChesspieces());
-                        tile.updateChessPiece();
-                        clickedOnChesspiece = false;
-                        for (Tile tileRemove : bord) {
-                            if (tileRemove.getX() == selectedChessPiece.getX() && tileRemove.getY() == selectedChessPiece.getY()) {
-                                tileRemove.getChesspieces().resetMoves();
-                                canMovePosition = new ArrayList<>();
-                                tileRemove.removeChestpiece();
-                                if (turn) {
-                                    turn = false;
-                                } else {
-                                    turn = true;
+                        if (!tile.hasChesspiece && tile.canMoveHere) {
+                            tile.setChesspieces(selectedChessPiece.getChesspieces());
+                            if(tile.getChesspieces().isPawn())
+                            {
+                                Pawn pawn = (Pawn)tile.getChesspieces();
+                                pawn.setFirstmove(false);
+                            }
+                            tile.updateChessPiece();
+                            clickedOnChesspiece = false;
+                            for (Tile tileRemove : bord) {
+                                if (tileRemove.getX() == selectedChessPiece.getX() && tileRemove.getY() == selectedChessPiece.getY()) {
+                                    tileRemove.getChesspieces().resetMoves();
+                                    canMovePosition = new ArrayList<>();
+                                    tileRemove.removeChestpiece();
+                                    turn = !turn;
                                 }
                             }
                         }

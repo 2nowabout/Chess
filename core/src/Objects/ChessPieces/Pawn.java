@@ -9,6 +9,7 @@ import java.util.List;
 public class Pawn extends Chesspieces {
 
     private boolean firstmove = true;
+
     public Pawn(boolean white, int x, int y) {
         super(white, x, y);
         if (white) {
@@ -16,6 +17,7 @@ public class Pawn extends Chesspieces {
         } else {
             texture = new Texture("BlackPawn.png");
         }
+        isPawn = true;
     }
 
     @Override
@@ -92,7 +94,8 @@ public class Pawn extends Chesspieces {
                 }
             }
         }
-        firstmove = false;
     }
+
+    public void setFirstmove(boolean firstmove) { this.firstmove = firstmove; }
 }
 
