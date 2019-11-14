@@ -36,6 +36,7 @@ public abstract class Chesspieces {
         this.y = y;
         isKing = false;
         isPawn = false;
+        possibleMoves = new ArrayList<>();
     }
 
     public abstract void calculateMoves(List<Tile> tiles);

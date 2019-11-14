@@ -41,6 +41,10 @@ public class Knight extends Chesspieces {
     private List<Postition> notPossibleMoves(List<Tile> tiles) {
         List<Postition> notPossiblePositions = new ArrayList<>();
         for (Postition pos : possibleMoves) {
+            if(pos.getX() < 0 || pos.getX() > 9 || pos.getY() < 0 || pos.getY() > 9)
+            {
+                notPossiblePositions.add(pos);
+            }
             for (Tile tile : tiles) {
                 if (pos.getX() == tile.getX() && pos.getY() == tile.getY()) {
                     if (tile.hasChesspiece) {

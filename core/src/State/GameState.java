@@ -62,7 +62,6 @@ public class GameState extends State {
                             if (selectedChessPiece.getChesspieces().getColor() != tile.getChesspieces().getColor() && tile.canMoveHere) {
                                 tile.setChesspieces(selectedChessPiece.getChesspieces());
                                 tile.removeChestpiece();
-                                checkKings();
                                 checkWin();
                                 clickedOnChesspiece = false;
                             }
@@ -89,6 +88,7 @@ public class GameState extends State {
                 }
             }
         }
+        checkKings();
     }
 
     @Override
@@ -145,13 +145,31 @@ public class GameState extends State {
     }
 
     private void checkKings() {
+        boolean whiteKingDead = false;
+        boolean blackKingDead = false;
         for (Tile tile : bord) {
             if (tile.hasChesspiece) {
                 if (tile.getChesspieces().isKing()) {
                     King king = (King) tile.getChesspieces();
-                    king.checkCheckmate(bord);
+                    if(king.getColor()) {
+                        king.checkChecked(bord);
+                        whiteKingDead = king.checkCheckmate(bord);
+                    }
+                    else if(!king.getColor())
+                    {
+                        king.checkChecked(bord);
+                        blackKingDead = king.checkCheckmate(bord);
+                    }
                 }
             }
+        }
+        if(blackKingDead)
+        {
+            gsm.push(new GameState(gsm));
+        }
+        if(whiteKingDead)
+        {
+            gsm.push(new GameState(gsm));
         }
     }
 }
