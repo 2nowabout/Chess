@@ -11,9 +11,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class Chess extends ApplicationAdapter {
 
-	SpriteBatch batch;
+	private SpriteBatch batch;
 	private GameStateManager gsm;
-
 	
 	@Override
 	public void create () {

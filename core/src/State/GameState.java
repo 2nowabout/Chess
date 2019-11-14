@@ -68,9 +68,8 @@ public class GameState extends State {
                         }
                         if (!tile.hasChesspiece && tile.canMoveHere) {
                             tile.setChesspieces(selectedChessPiece.getChesspieces());
-                            if(tile.getChesspieces().isPawn())
-                            {
-                                Pawn pawn = (Pawn)tile.getChesspieces();
+                            if (tile.getChesspieces().isPawn()) {
+                                Pawn pawn = (Pawn) tile.getChesspieces();
                                 pawn.setFirstmove(false);
                             }
                             tile.updateChessPiece();
@@ -151,24 +150,20 @@ public class GameState extends State {
             if (tile.hasChesspiece) {
                 if (tile.getChesspieces().isKing()) {
                     King king = (King) tile.getChesspieces();
-                    if(king.getColor()) {
+                    if (king.getColor()) {
                         king.checkChecked(bord);
                         whiteKingDead = king.checkCheckmate(bord);
-                    }
-                    else if(!king.getColor())
-                    {
+                    } else if (!king.getColor()) {
                         king.checkChecked(bord);
                         blackKingDead = king.checkCheckmate(bord);
                     }
                 }
             }
         }
-        if(blackKingDead)
-        {
+        if (blackKingDead) {
             gsm.push(new GameState(gsm));
         }
-        if(whiteKingDead)
-        {
+        if (whiteKingDead) {
             gsm.push(new GameState(gsm));
         }
     }
