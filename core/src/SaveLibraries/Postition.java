@@ -5,8 +5,7 @@ public class Postition {
     private int x;
     private int y;
 
-    public Postition(int x, int y)
-    {
+    public Postition(int x, int y) {
         this.x = x;
         this.y = y;
     }
@@ -24,12 +23,9 @@ public class Postition {
             return false;
         }
         Postition otherMember = (Postition) anObject;
-        if(x == otherMember.getX() && y == otherMember.getY())
-        {
+        if (x == otherMember.getX() && y == otherMember.getY()) {
             return true;
-        }
-        else
-        {
+        } else {
             return false;
         }
     }
