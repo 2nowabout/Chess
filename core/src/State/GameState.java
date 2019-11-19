@@ -24,6 +24,8 @@ public class GameState extends State {
     private List<Postition> canMovePosition;
     private Tile selectedChessPiece;
     private Bot bot;
+    private boolean youAreWhite;
+    private boolean localPlay;
 
     public GameState(GameStateManager gsm) {
         super(gsm);
@@ -32,9 +34,11 @@ public class GameState extends State {
         canMovePosition = new ArrayList<>();
         generateBord generate = new generateBord();
         bord = generate.generatBord(); //generate start layout
+        localPlay = gsm.localPlay;
         if(gsm.singlePlayer)
         {
             bot = new Bot(bord);
+            youAreWhite = true;
         }
     }
 
@@ -51,15 +55,7 @@ public class GameState extends State {
             Rectangle mouseRectangle = new Rectangle(Gdx.input.getX(), Gdx.input.getY(), 1, 1); //get mouse position
             mouseRectangle.y = Gdx.graphics.getHeight() - mouseRectangle.y; // invert y, this is already inverted in the game
             if (tile.hasChesspiece()) { // check if tile has a chesspiece
-                if (tile.getChesspieces().getRectangle().intersects(mouseRectangle) && (turn == tile.getChesspieces().getColor())) { // check if mouse rectangle is on a chesspiece
-                    if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) { // if user clicks on the chesspiece
-                        tile.getChesspieces().calculateMoves(bord);
-                        canMovePosition = tile.getChesspieces().getPossibleMoves();
-                        clickedOnChesspiece = true;
-                        selectedChessPiece = tile;
-
-                    }
-                }
+                checkSelectedPiece(tile, mouseRectangle);
             }
             if (clickedOnChesspiece) {
                 if (tile.getRectangle().intersects(mouseRectangle)) {
@@ -78,14 +74,28 @@ public class GameState extends State {
                                 Pawn pawn = (Pawn) tile.getChesspieces();
                                 pawn.setFirstmove(false);
                             }
-                            tile.updateChessPiece();
                             clickedOnChesspiece = false;
                             for (Tile tileRemove : bord) {
                                 if (tileRemove.getX() == selectedChessPiece.getX() && tileRemove.getY() == selectedChessPiece.getY()) {
                                     tileRemove.getChesspieces().resetMoves();
                                     canMovePosition = new ArrayList<>();
                                     tileRemove.removeChestpiece();
-                                    turn = !turn;
+                                    if(gsm.singlePlayer)
+                                    {
+                                        checkKings();
+                                        checkWin();
+                                        bot.updateBord(bord);
+                                        bot.act();
+                                        bot.updateBord(bord);
+                                    }
+                                    else if(localPlay)
+                                    {
+                                        turn = !turn;
+                                    }
+                                    else
+                                    {
+                                        //multiplayer lol
+                                    }
                                 }
                             }
                         }
@@ -125,7 +135,9 @@ public class GameState extends State {
 
     @Override
     public void dispose() {
-
+        for (Tile tile: bord) {
+            tile.dispose();
+        }
     }
 
     private void checkWin() {
@@ -171,6 +183,27 @@ public class GameState extends State {
         }
         if (whiteKingDead) {
             gsm.push(new GameState(gsm));
+        }
+    }
+
+    private void checkSelectedPiece(Tile tile, Rectangle mouseRectangle)
+    {
+        if (!localPlay && tile.getChesspieces().getRectangle().intersects(mouseRectangle) && (youAreWhite == tile.getChesspieces().getColor())) { // check if mouse rectangle is on a chesspiece
+            if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) { // if user clicks on the chesspiece
+                tile.getChesspieces().calculateMoves(bord);
+                canMovePosition = tile.getChesspieces().getPossibleMoves();
+                clickedOnChesspiece = true;
+                selectedChessPiece = tile;
+            }
+        }
+        if(localPlay && tile.getChesspieces().getRectangle().intersects(mouseRectangle) && turn == tile.getChesspieces().getColor())
+        {
+            if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) { // if user clicks on the chesspiece
+                tile.getChesspieces().calculateMoves(bord);
+                canMovePosition = tile.getChesspieces().getPossibleMoves();
+                clickedOnChesspiece = true;
+                selectedChessPiece = tile;
+            }
         }
     }
 }

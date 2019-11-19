@@ -48,11 +48,12 @@ public class Tile {
         if (canMoveHere) {
             batch.draw(possibleTexture, renderX, renderY, WIDTH, HEIGHT);
         }
+
     }
 
     public void update(float dt) {
         if (chesspieces != null) {
-            chesspieces.update(dt, renderX, renderY);
+            chesspieces.update(dt, renderX, renderY, this.x, this.y);
         }
         rectangle = new Rectangle(renderX, renderY, 100, 100);
     }
@@ -62,6 +63,16 @@ public class Tile {
     }
     public Chesspieces getChesspieces() {
         return chesspieces;
+    }
+    public void dispose()
+    {
+        texture.dispose();
+        possibleTexture.dispose();
+        font.dispose();
+        if(chesspieces != null)
+        {
+            chesspieces.dispose();
+        }
     }
 
     public void setChesspieces(Chesspieces chesspieces) {
@@ -75,9 +86,4 @@ public class Tile {
     public int getX() { return x; }
     public int getY() { return y; }
     public Rectangle getRectangle() { return rectangle; }
-    public void updateChessPiece() {
-        if (chesspieces != null) {
-            chesspieces.updateXandY(x, y);
-        }
-    }
 }

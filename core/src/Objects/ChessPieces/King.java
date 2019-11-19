@@ -3,6 +3,7 @@ package Objects.ChessPieces;
 import Objects.Tile;
 import SaveLibraries.Postition;
 import com.badlogic.gdx.graphics.Texture;
+import com.twonowabout.Chess;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -76,6 +77,22 @@ public class King extends Chesspieces {
 
     private List<Postition> notPossibleMoves(List<Tile> tiles) {
         List<Postition> notPossibleMoves = new ArrayList<>();
+        List<Chesspieces> enemys = new ArrayList<>();
+        List<Postition> allmovesenemy = new ArrayList<>();
+        enemys = getAllEnemys(tiles);
+        for (Chesspieces chess : enemys) {
+            chess.calculateMoves(tiles);
+            allmovesenemy.addAll(chess.possibleMoves);
+        }
+        List<Postition> positionsToRemove = new ArrayList<>();
+        for (Postition kingmoves : possibleMoves) {
+            for (Postition enemymoves : allmovesenemy) {
+                if (kingmoves.getX() == enemymoves.getX() && kingmoves.getY() == enemymoves.getY()) {
+                    positionsToRemove.add(kingmoves);
+                }
+            }
+        }
+        notPossibleMoves.addAll(positionsToRemove);
         for (Postition pos : possibleMoves) {
             if(pos.getX() < 0 || pos.getX() > 9 || pos.getY() < 0 || pos.getY() > 9)
             {
@@ -102,19 +119,7 @@ public class King extends Chesspieces {
         {
             return false;
         }
-        for (Tile tile : tiles) {
-            if (tile.hasChesspiece()) {
-                if (white) {
-                    if (!tile.getChesspieces().white) {
-                        enemys.add(tile.getChesspieces());
-                    }
-                } else {
-                    if (tile.getChesspieces().white) {
-                        enemys.add(tile.getChesspieces());
-                    }
-                }
-            }
-        }
+        enemys = getAllEnemys(tiles);
         for (Chesspieces chess : enemys) {
             chess.calculateMoves(tiles);
             allmovesenemy.addAll(chess.possibleMoves);
@@ -135,5 +140,28 @@ public class King extends Chesspieces {
         } else {
             return false;
         }
+    }
+
+    private List<Chesspieces> getAllEnemys(List<Tile> tiles)
+    {
+        List<Chesspieces> chesspieces = new ArrayList<>();
+        for (Tile tile : tiles) {
+            if (tile.hasChesspiece()) {
+                if (white) {
+                    if (!tile.getChesspieces().white) {
+                        if(!tile.getChesspieces().isKing) {
+                            chesspieces.add(tile.getChesspieces());
+                        }
+                    }
+                } else {
+                    if (tile.getChesspieces().white) {
+                        if(!tile.getChesspieces().isKing) {
+                            chesspieces.add(tile.getChesspieces());
+                        }
+                    }
+                }
+            }
+        }
+        return chesspieces;
     }
 }

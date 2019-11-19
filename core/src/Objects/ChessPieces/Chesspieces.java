@@ -11,19 +11,14 @@ import java.util.List;
 
 public abstract class Chesspieces {
     protected Texture texture;
-
     protected boolean white;
-
     protected boolean isPawn;
-
     protected boolean isKing;
-
     protected boolean dead = false;
+    protected boolean clicked = false;
 
     protected int x;
     protected int y;
-
-    protected boolean clicked = false;
 
     protected Rectangle rectangle;
 
@@ -41,9 +36,7 @@ public abstract class Chesspieces {
 
     public abstract void calculateMoves(List<Tile> tiles);
     public void render(SpriteBatch batch, int renderX, int renderY, int width, int height) { batch.draw(texture, renderX, renderY, width, height); }
-    public void update(float dt, int renderX, int renderY) {
-        rectangle = new Rectangle(renderX, renderY, 100, 100);
-    }
+    public void update(float dt, int renderX, int renderY, int x, int y) { rectangle = new Rectangle(renderX, renderY, 100, 100); this.x = x; this.y = y; }
     public Rectangle getRectangle() {
         return rectangle;
     }
@@ -54,10 +47,10 @@ public abstract class Chesspieces {
     {
         possibleMoves = new ArrayList<>();
     }
-    public void updateXandY(int x, int y) {  this.x = x;  this.y = y;  }
     public boolean getColor() { return white; }
     public boolean isDead() { return dead; }
     public void setDead(boolean dead) { this.dead = dead; }
     public boolean isKing() { return isKing; }
     public boolean isPawn() { return isPawn; }
+    public void dispose() { texture.dispose(); }
 }
