@@ -6,11 +6,10 @@ import Objects.Tile;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GenerateBord {
+public class generateBord {
     private List<Tile> bord;
 
-    public GenerateBord()
-    {
+    public generateBord() {
         bord = new ArrayList<>();
     }
 
@@ -35,7 +34,7 @@ public class GenerateBord {
                 if (xPos >= 1260) {
                     xPos = originalxPos;
                     yPos = yPos - 100;
-                    if (y%2 == 0) {
+                    if (y % 2 == 0) {
                         whiteTile = false;
                     } else {
                         whiteTile = true;
@@ -49,25 +48,19 @@ public class GenerateBord {
         return bord;
     }
 
-    private void placeChestPieces()
-    {
-        for (Tile tile: bord) {
-            if(tile.getY() < 3)
-            {
+    private void placeChestPieces() {
+        for (Tile tile : bord) {
+            if (tile.getY() < 3) {
                 placeBlack(tile);
-            }
-            else if(tile.getY() > 5)
-            {
+            } else if (tile.getY() > 5) {
                 placeWhite(tile);
             }
         }
     }
-    private void placeBlack(Tile tile)
-    {
-        if(tile.getY() == 0)
-        {
-            switch (tile.getX())
-            {
+
+    private void placeBlack(Tile tile) {
+        if (tile.getY() == 0) {
+            switch (tile.getX()) {
                 case 0:
                 case 7:
                     tile.setChesspieces(new Rook(false, tile.getX(), tile.getY()));
@@ -86,13 +79,14 @@ public class GenerateBord {
                 case 4:
                     tile.setChesspieces(new King(false, tile.getX(), tile.getY()));
                     break;
+                default:
+                    break;
             }
-        }
-        else if (tile.getY() == 1)
-        {
+        } else if (tile.getY() == 1) {
             tile.setChesspieces(new Pawn(false, tile.getX(), tile.getY()));
         }
     }
+
     private void placeWhite(Tile tile) {
         if (tile.getY() == 6) {
             tile.setChesspieces(new Pawn(true, tile.getX(), tile.getY()));
@@ -116,6 +110,9 @@ public class GenerateBord {
                 case 4:
                     tile.setChesspieces(new King(true, tile.getX(), tile.getY()));
                     break;
+                default:
+                    break;
+
             }
         }
     }

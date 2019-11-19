@@ -6,10 +6,4 @@ sourceCompatibility = 1.7
 
 sourceSets.main.java.srcDirs = [ "src/" ]
 
-/*repositories {
-    mavenCentral()
-}
 
-dependencies {
-    compile 'javax.websocket:javax.websocket-api:1.1'
-}*/

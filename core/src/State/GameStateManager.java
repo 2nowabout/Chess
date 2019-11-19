@@ -6,6 +6,7 @@ import java.util.Stack;
 
 public class GameStateManager {
     private Stack<State> states;
+    public boolean singlePlayer = true;
 
     public GameStateManager()
     {

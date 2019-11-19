@@ -12,8 +12,8 @@ public class Tile {
     private static final int WIDTH = 100;
     private static final int HEIGHT = 100;
 
-    public boolean hasChesspiece = false;
-    public boolean canMoveHere = false;
+    private boolean hasChesspiece = false;
+    private boolean canMoveHere = false;
     private Texture possibleTexture;
     private Texture texture;
     private Rectangle rectangle;
@@ -68,6 +68,10 @@ public class Tile {
         this.chesspieces = chesspieces;
         hasChesspiece = true;
     }
+    public boolean hasChesspiece() { return hasChesspiece; }
+    public void setHasChesspiece(boolean hasChesspiece) { this.hasChesspiece = hasChesspiece; }
+    public boolean isCanMoveHere() { return canMoveHere; }
+    public void setCanMoveHere(boolean canMoveHere) { this.canMoveHere = canMoveHere; }
     public int getX() { return x; }
     public int getY() { return y; }
     public Rectangle getRectangle() { return rectangle; }

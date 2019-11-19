@@ -78,7 +78,7 @@ public class Bishop extends Chesspieces {
         List<Postition> actuallypossible = actuallypossiblebegin;
         if (newx < 0 || newy < 0 || newx > 10 || newy > 10) {
             // outside field
-        } else if (tile.hasChesspiece && !teamhit && firstenemy) {
+        } else if (tile.hasChesspiece() && !teamhit && firstenemy) {
             if (tile.getChesspieces().white && white || !tile.getChesspieces().white && !white) {
                 teamhit = true;
             } else if (tile.getChesspieces().white && !white || !tile.getChesspieces().white && white) {
@@ -86,7 +86,7 @@ public class Bishop extends Chesspieces {
                 actuallypossible.add(pos);
                 firstenemy = false;
             }
-        } else if (!tile.hasChesspiece && !teamhit && firstenemy) {
+        } else if (!tile.hasChesspiece() && !teamhit && firstenemy) {
             Postition pos = new Postition(newx, newy);
             actuallypossible.add(pos);
         }

@@ -48,7 +48,7 @@ public class King extends Chesspieces {
         List<Postition> allenemysmoves = new ArrayList<>();
         List<Chesspieces> enemypieces = new ArrayList<>();
         for (Tile tile: tiles) {
-            if(tile.hasChesspiece)
+            if(tile.hasChesspiece())
             {
                 if(white && !tile.getChesspieces().white)
                 {
@@ -83,7 +83,7 @@ public class King extends Chesspieces {
             }
             for (Tile tile : tiles) {
                 if (pos.getX() == tile.getX() && pos.getY() == tile.getY()) {
-                    if (tile.hasChesspiece) {
+                    if (tile.hasChesspiece()) {
                         if (white && tile.getChesspieces().white || !white && !tile.getChesspieces().white) {
                             notPossibleMoves.add(pos);
                         }
@@ -103,7 +103,7 @@ public class King extends Chesspieces {
             return false;
         }
         for (Tile tile : tiles) {
-            if (tile.hasChesspiece) {
+            if (tile.hasChesspiece()) {
                 if (white) {
                     if (!tile.getChesspieces().white) {
                         enemys.add(tile.getChesspieces());

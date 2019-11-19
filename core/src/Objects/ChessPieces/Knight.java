@@ -47,7 +47,7 @@ public class Knight extends Chesspieces {
             }
             for (Tile tile : tiles) {
                 if (pos.getX() == tile.getX() && pos.getY() == tile.getY()) {
-                    if (tile.hasChesspiece) {
+                    if (tile.hasChesspiece()) {
                         if (white && tile.getChesspieces().white || !white && !tile.getChesspieces().white) {
                             notPossiblePositions.add(pos);
                         }

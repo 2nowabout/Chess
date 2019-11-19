@@ -28,19 +28,19 @@ public class Pawn extends Chesspieces {
                 if(firstmove) {
                     if (!white) {
                         if (tile.getX() == x && tile.getY() == y + i) {
-                            if (!tile.hasChesspiece && !otherhit) {
+                            if (!tile.hasChesspiece() && !otherhit) {
                                 Postition postion = new Postition(x, y + i);
                                 possibleMoves.add(postion);
-                            } else if (tile.hasChesspiece) {
+                            } else if (tile.hasChesspiece()) {
                                 otherhit = true;
                             }
                         }
                     } else {
                         if (tile.getX() == x && tile.getY() == y - i) {
-                            if (!tile.hasChesspiece && !otherhit) {
+                            if (!tile.hasChesspiece() && !otherhit) {
                                 Postition postion = new Postition(x, y - i);
                                 possibleMoves.add(postion);
-                            } else if (tile.hasChesspiece) {
+                            } else if (tile.hasChesspiece()) {
                                 otherhit = true;
                             }
                         }
@@ -51,7 +51,7 @@ public class Pawn extends Chesspieces {
                     if(!white)
                     {
                         if (tile.getX() == x && tile.getY() == y + 1) {
-                            if (!tile.hasChesspiece && !otherhit) {
+                            if (!tile.hasChesspiece() && !otherhit) {
                                 Postition postition = new Postition(x,  y+1);
                                 possibleMoves.add(postition);
                             }
@@ -60,7 +60,7 @@ public class Pawn extends Chesspieces {
                     else
                     {
                         if (tile.getX() == x && tile.getY() == y - 1) {
-                            if (!tile.hasChesspiece && !otherhit) {
+                            if (!tile.hasChesspiece() && !otherhit) {
                                 Postition postition = new Postition(x,  y-1);
                                 possibleMoves.add(postition);
                             }
@@ -69,24 +69,24 @@ public class Pawn extends Chesspieces {
                 }
                 if (!white) {
                     if (tile.getX() == x + 1 && tile.getY() == y + 1) {
-                        if (tile.hasChesspiece && tile.getChesspieces().white) {
+                        if (tile.hasChesspiece() && tile.getChesspieces().white) {
                             Postition postition = new Postition(x + 1, y+1);
                             possibleMoves.add(postition);
                         }
                     } else if (tile.getX() == x - 1 && tile.getY() == y + 1) {
-                        if (tile.hasChesspiece && tile.getChesspieces().white) {
+                        if (tile.hasChesspiece() && tile.getChesspieces().white) {
                             Postition postition = new Postition(x-1, y+1);
                             possibleMoves.add(postition);
                         }
                     }
                 } else {
                     if (tile.getX() == x + 1 && tile.getY() == y - 1) {
-                        if (tile.hasChesspiece&& !tile.getChesspieces().white) {
+                        if (tile.hasChesspiece() && !tile.getChesspieces().white) {
                             Postition postition = new Postition(x+1, y-1);
                             possibleMoves.add(postition);
                         }
                     } else if (tile.getX() == x - 1 && tile.getY() == y - 1) {
-                        if (tile.hasChesspiece && !tile.getChesspieces().white) {
+                        if (tile.hasChesspiece() && !tile.getChesspieces().white) {
                             Postition postition = new Postition(x-1, y-1);
                             possibleMoves.add(postition);
                         }
