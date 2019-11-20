@@ -1,5 +1,6 @@
 package Objects.ChessPieces;
 
+import Interfaces.iTile;
 import Objects.Tile;
 import SaveLibraries.Postition;
 import com.badlogic.gdx.graphics.Texture;
@@ -21,10 +22,10 @@ public class Pawn extends Chesspieces {
     }
 
     @Override
-    public void calculateMoves(List<Tile> tiles) {
+    public void calculateMoves(List<iTile> tiles) {
         boolean otherhit = false;
         for (int i = 1; i < 3; i++) {
-            for (Tile tile : tiles) {
+            for (iTile tile : tiles) {
                 if(firstmove) {
                     if (!white) {
                         if (tile.getX() == x && tile.getY() == y + i) {

@@ -2,12 +2,18 @@ package State;
 
 import AI.Bot;
 import Functions.generateBord;
+import Interfaces.iBot;
+import Interfaces.iButtons;
+import Interfaces.iTile;
+import Objects.Buttons;
 import Objects.ChessPieces.King;
 import Objects.ChessPieces.Pawn;
 import Objects.Tile;
+import Interfaces.iGenerateBord;
 import SaveLibraries.Postition;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import java.awt.*;
@@ -18,28 +24,36 @@ public class GameState extends State {
 
     private GameStateManager gsm;
 
-    private List<Tile> bord;
-    private boolean turn = true;
+    private boolean turn;
     private boolean clickedOnChesspiece = false;
-    private List<Postition> canMovePosition;
-    private Tile selectedChessPiece;
-    private Bot bot;
+    private boolean settingsOpen;
     private boolean youAreWhite;
     private boolean localPlay;
+
+    private iButtons settingsButton;
+
+    private List<iTile> bord;
+    private List<Postition> canMovePosition;
+    private iTile selectedChessPiece;
+    private iBot bot;
+    private State settings;
+
 
     public GameState(GameStateManager gsm) {
         super(gsm);
         this.gsm = gsm;
         bord = new ArrayList<>();
         canMovePosition = new ArrayList<>();
-        generateBord generate = new generateBord();
-        bord = generate.generatBord(); //generate start layout
-        localPlay = gsm.localPlay;
-        if(gsm.singlePlayer)
-        {
+        iGenerateBord bordGenerator = new generateBord();
+        bord = bordGenerator.generate(); //generate start layout
+        localPlay = gsm.isLocalPlay();
+        turn = true;
+        settingsButton = new Buttons(Gdx.graphics.getWidth() - 200, Gdx.graphics.getHeight() - 100, "", 50, 50, "settings.png");
+        if (gsm.isSinglePlayer()) {
             bot = new Bot(bord);
             youAreWhite = true;
         }
+        settings = new Settings(gsm, this);
     }
 
     @Override
@@ -47,13 +61,18 @@ public class GameState extends State {
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {  //exit game if escape is pressed
             Gdx.app.exit();
         }
-        for (Tile tile : bord) {
+        Rectangle mouseRectangle = new Rectangle(Gdx.input.getX(), Gdx.input.getY(), 1, 1); //get mouse position
+        mouseRectangle.y = Gdx.graphics.getHeight() - mouseRectangle.y; // invert y, this is already inverted in the game
+        if (settingsButton.getRectangle().intersects(mouseRectangle)) {
+            if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
+                settingsOpen = true;
+            }
+        }
+        for (iTile tile : bord) {
             if (tile.hasChesspiece() && Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) // check if player clicked to reset possible tiles
             {
                 tile.getChesspieces().resetMoves();
             }
-            Rectangle mouseRectangle = new Rectangle(Gdx.input.getX(), Gdx.input.getY(), 1, 1); //get mouse position
-            mouseRectangle.y = Gdx.graphics.getHeight() - mouseRectangle.y; // invert y, this is already inverted in the game
             if (tile.hasChesspiece()) { // check if tile has a chesspiece
                 checkSelectedPiece(tile, mouseRectangle);
             }
@@ -75,25 +94,19 @@ public class GameState extends State {
                                 pawn.setFirstmove(false);
                             }
                             clickedOnChesspiece = false;
-                            for (Tile tileRemove : bord) {
+                            for (iTile tileRemove : bord) {
                                 if (tileRemove.getX() == selectedChessPiece.getX() && tileRemove.getY() == selectedChessPiece.getY()) {
                                     tileRemove.getChesspieces().resetMoves();
                                     canMovePosition = new ArrayList<>();
                                     tileRemove.removeChestpiece();
-                                    if(gsm.singlePlayer)
-                                    {
+                                    if (gsm.isSinglePlayer()) {
                                         checkKings();
                                         checkWin();
                                         bot.updateBord(bord);
                                         bot.act();
-                                        bot.updateBord(bord);
-                                    }
-                                    else if(localPlay)
-                                    {
+                                    } else if (localPlay) {
                                         turn = !turn;
-                                    }
-                                    else
-                                    {
+                                    } else {
                                         //multiplayer lol
                                     }
                                 }
@@ -108,7 +121,7 @@ public class GameState extends State {
 
     @Override
     public void update(float dt) {
-        for (Tile tile : bord) {
+        for (iTile tile : bord) {
             tile.update(dt);
             tile.setCanMoveHere(false);
             if (!canMovePosition.isEmpty()) //check if list of positions is empty or filled
@@ -121,21 +134,29 @@ public class GameState extends State {
                 }
             }
         }
+        settingsButton.update(dt);
         handleInput();
+        if (settingsOpen) {
+            settings.update(dt);
+        }
     }
 
     @Override
     public void render(SpriteBatch sb) {
         sb.begin();
-        for (Tile tile : bord) {
+        for (iTile tile : bord) {
             tile.render(sb); //render all tiles and chesspieces if they are on the tile
+        }
+        settingsButton.render(sb);
+        if (settingsOpen) {
+            settings.render(sb);
         }
         sb.end();
     }
 
     @Override
     public void dispose() {
-        for (Tile tile: bord) {
+        for (iTile tile : bord) {
             tile.dispose();
         }
     }
@@ -143,7 +164,7 @@ public class GameState extends State {
     private void checkWin() {
         boolean white = false;
         boolean black = false;
-        for (Tile tile : bord) {
+        for (iTile tile : bord) {
             if (tile.hasChesspiece()) {
                 if (tile.getChesspieces().isKing() && tile.getChesspieces().getColor()) {
                     white = true;
@@ -164,7 +185,7 @@ public class GameState extends State {
     private void checkKings() {
         boolean whiteKingDead = false;
         boolean blackKingDead = false;
-        for (Tile tile : bord) {
+        for (iTile tile : bord) {
             if (tile.hasChesspiece()) {
                 if (tile.getChesspieces().isKing()) {
                     King king = (King) tile.getChesspieces();
@@ -186,8 +207,7 @@ public class GameState extends State {
         }
     }
 
-    private void checkSelectedPiece(Tile tile, Rectangle mouseRectangle)
-    {
+    private void checkSelectedPiece(iTile tile, Rectangle mouseRectangle) {
         if (!localPlay && tile.getChesspieces().getRectangle().intersects(mouseRectangle) && (youAreWhite == tile.getChesspieces().getColor())) { // check if mouse rectangle is on a chesspiece
             if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) { // if user clicks on the chesspiece
                 tile.getChesspieces().calculateMoves(bord);
@@ -196,8 +216,7 @@ public class GameState extends State {
                 selectedChessPiece = tile;
             }
         }
-        if(localPlay && tile.getChesspieces().getRectangle().intersects(mouseRectangle) && turn == tile.getChesspieces().getColor())
-        {
+        if (localPlay && tile.getChesspieces().getRectangle().intersects(mouseRectangle) && turn == tile.getChesspieces().getColor()) {
             if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) { // if user clicks on the chesspiece
                 tile.getChesspieces().calculateMoves(bord);
                 canMovePosition = tile.getChesspieces().getPossibleMoves();
@@ -206,4 +225,6 @@ public class GameState extends State {
             }
         }
     }
+
+    public void setSettingsOpen(boolean settingsOpen) { this.settingsOpen = settingsOpen; }
 }

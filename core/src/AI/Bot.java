@@ -1,5 +1,7 @@
 package AI;
 
+import Interfaces.iBot;
+import Interfaces.iTile;
 import Objects.ChessPieces.Chesspieces;
 import Objects.Tile;
 import SaveLibraries.Postition;
@@ -8,19 +10,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class Bot {
-    private List<Tile> bord;
+public class Bot implements iBot {
+    private List<iTile> bord;
     private List<Chesspieces> enemyChesspieces;
     private List<Chesspieces> botChesspieces;
     private List<Postition> possibleEnemyPositions;
     private List<Postition> possibleAllyPositions;
 
-    public Bot(List<Tile> tiles)
+    public Bot(List<iTile> tiles)
     {
         bord = tiles;
     }
 
-    public void updateBord(List<Tile> tiles)
+    public void updateBord(List<iTile> tiles)
     {
         bord = tiles;
     }
@@ -31,8 +33,8 @@ public class Bot {
         botChesspieces = new ArrayList<>();
         possibleAllyPositions = new ArrayList<>();
         possibleEnemyPositions = new ArrayList<>();
-        List<Tile> toRemove = new ArrayList<>();
-        for (Tile tile: bord) {
+        List<iTile> toRemove = new ArrayList<>();
+        for (iTile tile: bord) {
             if(tile.hasChesspiece())
             {
                 tile.getChesspieces().resetMoves();
@@ -69,7 +71,7 @@ public class Bot {
         }
         int move = rnd.nextInt(chesspiece.getPossibleMoves().size());
         Postition pos = chesspiece.getPossibleMoves().get(move);
-        for (Tile tile: bord) {
+        for (iTile tile: bord) {
             if(tile.getX() == pos.getX() && tile.getY() == pos.getY())
             {
                     tile.setChesspieces(chesspiece);

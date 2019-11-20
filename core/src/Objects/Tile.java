@@ -1,5 +1,6 @@
 package Objects;
 
+import Interfaces.iTile;
 import Objects.ChessPieces.Chesspieces;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -7,7 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import java.awt.*;
 
-public class Tile {
+public class Tile implements iTile {
 
     private static final int WIDTH = 100;
     private static final int HEIGHT = 100;

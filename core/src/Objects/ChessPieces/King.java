@@ -1,5 +1,6 @@
 package Objects.ChessPieces;
 
+import Interfaces.iTile;
 import Objects.Tile;
 import SaveLibraries.Postition;
 import com.badlogic.gdx.graphics.Texture;
@@ -24,7 +25,7 @@ public class King extends Chesspieces {
     }
 
     @Override
-    public void calculateMoves(List<Tile> tiles) {
+    public void calculateMoves(List<iTile> tiles) {
         Postition pos = new Postition(x + 1, y);
         possibleMoves.add(pos);
         pos = new Postition(x - 1, y);
@@ -44,11 +45,11 @@ public class King extends Chesspieces {
         possibleMoves.removeAll(notPossibleMoves(tiles));
     }
 
-    public void checkChecked(List<Tile> tiles)
+    public void checkChecked(List<iTile> tiles)
     {
         List<Postition> allenemysmoves = new ArrayList<>();
         List<Chesspieces> enemypieces = new ArrayList<>();
-        for (Tile tile: tiles) {
+        for (iTile tile: tiles) {
             if(tile.hasChesspiece())
             {
                 if(white && !tile.getChesspieces().white)
@@ -75,7 +76,7 @@ public class King extends Chesspieces {
         checked = false;
     }
 
-    private List<Postition> notPossibleMoves(List<Tile> tiles) {
+    private List<Postition> notPossibleMoves(List<iTile> tiles) {
         List<Postition> notPossibleMoves = new ArrayList<>();
         List<Chesspieces> enemys = new ArrayList<>();
         List<Postition> allmovesenemy = new ArrayList<>();
@@ -98,7 +99,7 @@ public class King extends Chesspieces {
             {
                 notPossibleMoves.add(pos);
             }
-            for (Tile tile : tiles) {
+            for (iTile tile : tiles) {
                 if (pos.getX() == tile.getX() && pos.getY() == tile.getY()) {
                     if (tile.hasChesspiece()) {
                         if (white && tile.getChesspieces().white || !white && !tile.getChesspieces().white) {
@@ -111,7 +112,7 @@ public class King extends Chesspieces {
         return notPossibleMoves;
     }
 
-    public boolean checkCheckmate(List<Tile> tiles) {
+    public boolean checkCheckmate(List<iTile> tiles) {
         List<Chesspieces> enemys = new ArrayList<>();
         List<Postition> allmovesenemy = new ArrayList<>();
         List<Postition> allkingmoves;
@@ -142,10 +143,10 @@ public class King extends Chesspieces {
         }
     }
 
-    private List<Chesspieces> getAllEnemys(List<Tile> tiles)
+    private List<Chesspieces> getAllEnemys(List<iTile> tiles)
     {
         List<Chesspieces> chesspieces = new ArrayList<>();
-        for (Tile tile : tiles) {
+        for (iTile tile : tiles) {
             if (tile.hasChesspiece()) {
                 if (white) {
                     if (!tile.getChesspieces().white) {

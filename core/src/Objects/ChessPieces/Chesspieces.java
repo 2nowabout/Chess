@@ -1,5 +1,6 @@
 package Objects.ChessPieces;
 
+import Interfaces.iTile;
 import Objects.Tile;
 import SaveLibraries.Postition;
 import com.badlogic.gdx.graphics.Texture;
@@ -34,7 +35,7 @@ public abstract class Chesspieces {
         possibleMoves = new ArrayList<>();
     }
 
-    public abstract void calculateMoves(List<Tile> tiles);
+    public abstract void calculateMoves(List<iTile> tiles);
     public void render(SpriteBatch batch, int renderX, int renderY, int width, int height) { batch.draw(texture, renderX, renderY, width, height); }
     public void update(float dt, int renderX, int renderY, int x, int y) { rectangle = new Rectangle(renderX, renderY, 100, 100); this.x = x; this.y = y; }
     public Rectangle getRectangle() {

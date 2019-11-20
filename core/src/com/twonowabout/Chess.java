@@ -3,6 +3,7 @@ package com.twonowabout;
 import State.GameState;
 import State.GameStateManager;
 import State.LoginState;
+import State.StartState;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics;
@@ -20,7 +21,7 @@ public class Chess extends ApplicationAdapter {
 		batch = new SpriteBatch();
         gsm = new GameStateManager();
         Gdx.gl.glClearColor(1, 1, 1, 1);
-        gsm.push(new GameState(gsm));
+        gsm.push(new StartState(gsm));
 	}
 
 	@Override
