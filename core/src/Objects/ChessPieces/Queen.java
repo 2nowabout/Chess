@@ -1,5 +1,6 @@
 package Objects.ChessPieces;
 
+import Interfaces.iTile;
 import Objects.Tile;
 import SaveLibraries.Postition;
 import com.badlogic.gdx.graphics.Texture;
@@ -22,12 +23,12 @@ public class Queen extends Chesspieces {
     }
 
     @Override
-    public void calculateMoves(List<Tile> tiles) {
+    public void calculateMoves(List<iTile> tiles) {
         List<Postition> actuallypossible = new ArrayList<>();
         boolean[] checks = {true, false, false, false, false, false, false, false};
         for (int again = 0; again < 8; again++) {
             for (int i = 1; i < 9; i++) {
-                for (Tile tile : tiles) {
+                for (iTile tile : tiles) {
                     if (again < 4) {
                         actuallypossible = bishopPositions(actuallypossible, checks, i, tile);
                     } else {
@@ -49,7 +50,7 @@ public class Queen extends Chesspieces {
         possibleMoves = actuallypossible;
     }
 
-    private List<Postition> rookPositions(List<Postition> actuallypossible, boolean[] checks, int i, Tile tile) {
+    private List<Postition> rookPositions(List<Postition> actuallypossible, boolean[] checks, int i, iTile tile) {
         //Rook
         if (checks[4]) {
             if (tile.getX() == x + i && tile.getY() == y) {
@@ -71,7 +72,7 @@ public class Queen extends Chesspieces {
         return actuallypossible;
     }
 
-    private List<Postition> bishopPositions(List<Postition> actuallypossible, boolean[] checks, int i, Tile tile) {
+    private List<Postition> bishopPositions(List<Postition> actuallypossible, boolean[] checks, int i, iTile tile) {
         //Bishop
         if (checks[0]) {
             if (tile.getX() == x + i && tile.getY() == y + i) {
@@ -93,7 +94,7 @@ public class Queen extends Chesspieces {
         return actuallypossible;
     }
 
-    private List<Postition> checkTile(Tile tile, List<Postition> actuallypossiblebegin, int newx, int newy) {
+    private List<Postition> checkTile(iTile tile, List<Postition> actuallypossiblebegin, int newx, int newy) {
         List<Postition> actuallypossible = actuallypossiblebegin;
         if (newx < 0 || newy < 0 || newx > 10 || newy > 10) {
             // outside field

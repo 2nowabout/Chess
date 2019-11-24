@@ -1,5 +1,6 @@
 package Objects.ChessPieces;
 
+import Interfaces.iTile;
 import Objects.Tile;
 import SaveLibraries.Postition;
 import com.badlogic.gdx.graphics.Texture;
@@ -18,7 +19,7 @@ public class Knight extends Chesspieces {
     }
 
     @Override
-    public void calculateMoves(List<Tile> tiles) {
+    public void calculateMoves(List<iTile> tiles) {
         Postition pos = new Postition(x+2, y+1);
         possibleMoves.add(pos);
         pos = new Postition(x+2, y-1);
@@ -38,14 +39,14 @@ public class Knight extends Chesspieces {
         possibleMoves.removeAll(notPossibleMoves(tiles));
     }
 
-    private List<Postition> notPossibleMoves(List<Tile> tiles) {
+    private List<Postition> notPossibleMoves(List<iTile> tiles) {
         List<Postition> notPossiblePositions = new ArrayList<>();
         for (Postition pos : possibleMoves) {
             if(pos.getX() < 0 || pos.getX() > 9 || pos.getY() < 0 || pos.getY() > 9)
             {
                 notPossiblePositions.add(pos);
             }
-            for (Tile tile : tiles) {
+            for (iTile tile : tiles) {
                 if (pos.getX() == tile.getX() && pos.getY() == tile.getY()) {
                     if (tile.hasChesspiece()) {
                         if (white && tile.getChesspieces().white || !white && !tile.getChesspieces().white) {

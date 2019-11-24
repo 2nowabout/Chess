@@ -1,5 +1,6 @@
 package Objects.ChessPieces;
 
+import Interfaces.iTile;
 import Objects.Tile;
 import SaveLibraries.Postition;
 import com.badlogic.gdx.graphics.Texture;
@@ -21,7 +22,7 @@ public class Bishop extends Chesspieces {
     }
 
     @Override
-    public void calculateMoves(List<Tile> tiles) {
+    public void calculateMoves(List<iTile> tiles) {
         List<Postition> actuallypossible = new ArrayList<>();
         boolean check1 = true;
         boolean check2 = false;
@@ -29,7 +30,7 @@ public class Bishop extends Chesspieces {
         boolean check4 = false;
         for (int again = 0; again < 4; again++) {
             for (int i = 1; i < 9; i++) {
-                for (Tile tile : tiles) {
+                for (iTile tile : tiles) {
                     if (check1) {
                         if (tile.getX() == x + i && tile.getY() == y + i) {
                             actuallypossible = checkTile(tile, actuallypossible, x + i, y + i);
@@ -74,7 +75,7 @@ public class Bishop extends Chesspieces {
         possibleMoves = actuallypossible;
     }
 
-    private List<Postition> checkTile(Tile tile, List<Postition> actuallypossiblebegin, int newx, int newy) {
+    private List<Postition> checkTile(iTile tile, List<Postition> actuallypossiblebegin, int newx, int newy) {
         List<Postition> actuallypossible = actuallypossiblebegin;
         if (newx < 0 || newy < 0 || newx > 10 || newy > 10) {
             // outside field

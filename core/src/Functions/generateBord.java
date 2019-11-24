@@ -1,19 +1,22 @@
 package Functions;
 
+import Interfaces.iGenerateBord;
+import Interfaces.iTile;
 import Objects.ChessPieces.*;
 import Objects.Tile;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class generateBord {
-    private List<Tile> bord;
+public class generateBord implements iGenerateBord {
+    private List<iTile> bord;
 
     public generateBord() {
         bord = new ArrayList<>();
     }
 
-    public List<Tile> generatBord() {
+    public List<iTile> generate()
+    {
         int originalyPos = 940;
         int originalxPos = 560;
         int xPos = originalxPos;
@@ -49,7 +52,7 @@ public class generateBord {
     }
 
     private void placeChestPieces() {
-        for (Tile tile : bord) {
+        for (iTile tile : bord) {
             if (tile.getY() < 3) {
                 placeBlack(tile);
             } else if (tile.getY() > 5) {
@@ -58,7 +61,7 @@ public class generateBord {
         }
     }
 
-    private void placeBlack(Tile tile) {
+    private void placeBlack(iTile tile) {
         if (tile.getY() == 0) {
             switch (tile.getX()) {
                 case 0:
@@ -87,7 +90,7 @@ public class generateBord {
         }
     }
 
-    private void placeWhite(Tile tile) {
+    private void placeWhite(iTile tile) {
         if (tile.getY() == 6) {
             tile.setChesspieces(new Pawn(true, tile.getX(), tile.getY()));
         } else if (tile.getY() == 7) {
