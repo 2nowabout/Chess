@@ -1,11 +1,11 @@
 package SaveLibraries;
 
-public class Postition {
+public class Position {
 
     private int x;
     private int y;
 
-    public Postition(int x, int y) {
+    public Position(int x, int y) {
         this.x = x;
         this.y = y;
     }
@@ -19,10 +19,10 @@ public class Postition {
 
     @Override
     public boolean equals(Object anObject) {
-        if (!(anObject instanceof Postition)) {
+        if (!(anObject instanceof Position)) {
             return false;
         }
-        Postition otherMember = (Postition) anObject;
+        Position otherMember = (Position) anObject;
         if (x == otherMember.getX() && y == otherMember.getY()) {
             return true;
         } else {

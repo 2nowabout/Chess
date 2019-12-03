@@ -1,4 +1,4 @@
-/*package Websockets;
+package Websockets;
 
 import javax.websocket.*;
 
@@ -20,4 +20,4 @@ public class WebsocketEndpoint {
     public void onWebSocketError(Throwable cause) {
         System.out.println("[ERROR]: " + cause.getMessage());
     }
-}*/
+}

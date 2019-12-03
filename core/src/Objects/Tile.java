@@ -2,6 +2,7 @@ package Objects;
 
 import Interfaces.iTile;
 import Objects.ChessPieces.Chesspieces;
+import Objects.ChessPieces.King;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -16,6 +17,7 @@ public class Tile implements iTile {
     private boolean hasChesspiece = false;
     private boolean canMoveHere = false;
     private Texture possibleTexture;
+    private Texture kingChecked;
     private Texture texture;
     private Rectangle rectangle;
     private int renderX;
@@ -29,6 +31,7 @@ public class Tile implements iTile {
 
     public Tile(int renderX, int renderY, int x, int y, String texture) {
         possibleTexture = new Texture("PossibleTile.png");
+        kingChecked = new Texture("kingChecked.png");
         font = new BitmapFont();
         this.renderX = renderX;
         this.renderY = renderY;
@@ -45,10 +48,19 @@ public class Tile implements iTile {
             if(!chesspieces.isDead()) {
                 chesspieces.render(batch, renderX, renderY, WIDTH, HEIGHT);
             }
+            if(chesspieces.isKing())
+            {
+                King king = (King) chesspieces;
+                if(king.isChecked())
+                {
+                    batch.draw(kingChecked, renderX, renderY, WIDTH, HEIGHT);
+                }
+            }
         }
         if (canMoveHere) {
             batch.draw(possibleTexture, renderX, renderY, WIDTH, HEIGHT);
         }
+
 
     }
 

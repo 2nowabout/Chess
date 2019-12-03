@@ -9,13 +9,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class generateBord implements iGenerateBord {
-    private List<iTile> bord;
+    private ArrayList<iTile> bord;
 
     public generateBord() {
         bord = new ArrayList<>();
     }
 
-    public List<iTile> generate()
+    public ArrayList<iTile> generate()
     {
         int originalyPos = 940;
         int originalxPos = 560;

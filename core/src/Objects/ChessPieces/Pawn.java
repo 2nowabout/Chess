@@ -1,11 +1,10 @@
 package Objects.ChessPieces;
 
 import Interfaces.iTile;
-import Objects.Tile;
-import SaveLibraries.Postition;
+import SaveLibraries.Position;
 import com.badlogic.gdx.graphics.Texture;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class Pawn extends Chesspieces {
 
@@ -19,10 +18,11 @@ public class Pawn extends Chesspieces {
             texture = new Texture("BlackPawn.png");
         }
         isPawn = true;
+        points = 10;
     }
 
     @Override
-    public void calculateMoves(List<iTile> tiles) {
+    public void calculateMoves(ArrayList<iTile> tiles) {
         boolean otherhit = false;
         for (int i = 1; i < 3; i++) {
             for (iTile tile : tiles) {
@@ -30,7 +30,7 @@ public class Pawn extends Chesspieces {
                     if (!white) {
                         if (tile.getX() == x && tile.getY() == y + i) {
                             if (!tile.hasChesspiece() && !otherhit) {
-                                Postition postion = new Postition(x, y + i);
+                                Position postion = new Position(x, y + i);
                                 possibleMoves.add(postion);
                             } else if (tile.hasChesspiece()) {
                                 otherhit = true;
@@ -39,7 +39,7 @@ public class Pawn extends Chesspieces {
                     } else {
                         if (tile.getX() == x && tile.getY() == y - i) {
                             if (!tile.hasChesspiece() && !otherhit) {
-                                Postition postion = new Postition(x, y - i);
+                                Position postion = new Position(x, y - i);
                                 possibleMoves.add(postion);
                             } else if (tile.hasChesspiece()) {
                                 otherhit = true;
@@ -53,8 +53,8 @@ public class Pawn extends Chesspieces {
                     {
                         if (tile.getX() == x && tile.getY() == y + 1) {
                             if (!tile.hasChesspiece() && !otherhit) {
-                                Postition postition = new Postition(x,  y+1);
-                                possibleMoves.add(postition);
+                                Position position = new Position(x,  y+1);
+                                possibleMoves.add(position);
                             }
                         }
                     }
@@ -62,8 +62,8 @@ public class Pawn extends Chesspieces {
                     {
                         if (tile.getX() == x && tile.getY() == y - 1) {
                             if (!tile.hasChesspiece() && !otherhit) {
-                                Postition postition = new Postition(x,  y-1);
-                                possibleMoves.add(postition);
+                                Position position = new Position(x,  y-1);
+                                possibleMoves.add(position);
                             }
                         }
                     }
@@ -71,25 +71,25 @@ public class Pawn extends Chesspieces {
                 if (!white) {
                     if (tile.getX() == x + 1 && tile.getY() == y + 1) {
                         if (tile.hasChesspiece() && tile.getChesspieces().white) {
-                            Postition postition = new Postition(x + 1, y+1);
-                            possibleMoves.add(postition);
+                            Position position = new Position(x + 1, y+1);
+                            possibleMoves.add(position);
                         }
                     } else if (tile.getX() == x - 1 && tile.getY() == y + 1) {
                         if (tile.hasChesspiece() && tile.getChesspieces().white) {
-                            Postition postition = new Postition(x-1, y+1);
-                            possibleMoves.add(postition);
+                            Position position = new Position(x-1, y+1);
+                            possibleMoves.add(position);
                         }
                     }
                 } else {
                     if (tile.getX() == x + 1 && tile.getY() == y - 1) {
                         if (tile.hasChesspiece() && !tile.getChesspieces().white) {
-                            Postition postition = new Postition(x+1, y-1);
-                            possibleMoves.add(postition);
+                            Position position = new Position(x+1, y-1);
+                            possibleMoves.add(position);
                         }
                     } else if (tile.getX() == x - 1 && tile.getY() == y - 1) {
                         if (tile.hasChesspiece() && !tile.getChesspieces().white) {
-                            Postition postition = new Postition(x-1, y-1);
-                            possibleMoves.add(postition);
+                            Position position = new Position(x-1, y-1);
+                            possibleMoves.add(position);
                         }
                     }
                 }

@@ -2,6 +2,7 @@ package State;
 
 import Interfaces.iButtons;
 import Objects.Buttons;
+import checks.gameChecks.closeAppCheck;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
@@ -15,11 +16,13 @@ public class StartState extends State {
 
     private GameStateManager gsm;
     private List<iButtons> buttons;
+    private closeAppCheck closeCheck;
 
     public StartState(GameStateManager gsm) {
         super(gsm);
         this.gsm = gsm;
         buttons = new ArrayList<>();
+        closeCheck = new closeAppCheck();
 
         Buttons localPlay = new Buttons(((Gdx.graphics.getWidth() / 5) * 2), ((Gdx.graphics.getHeight() / 5) * 4), "LocalPlay",0,0, "");
         Buttons singlePlayer = new Buttons(((Gdx.graphics.getWidth() / 5) * 2), ((Gdx.graphics.getHeight() / 5) * 3), "SinglePlayer", 0,0, "");
@@ -32,6 +35,7 @@ public class StartState extends State {
 
     @Override
     protected void handleInput() {
+        closeCheck.closeApp();
         for (iButtons button : buttons) {
             Rectangle mouseRectangle = new Rectangle(Gdx.input.getX(), Gdx.input.getY(), 1, 1); //get mouse position
             mouseRectangle.y = Gdx.graphics.getHeight() - mouseRectangle.y; // invert y, this is already inverted in the game

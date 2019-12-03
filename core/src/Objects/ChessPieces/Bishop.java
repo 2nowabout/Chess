@@ -1,12 +1,10 @@
 package Objects.ChessPieces;
 
 import Interfaces.iTile;
-import Objects.Tile;
-import SaveLibraries.Postition;
+import SaveLibraries.Position;
 import com.badlogic.gdx.graphics.Texture;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Bishop extends Chesspieces {
     private boolean teamhit = false;
@@ -19,11 +17,12 @@ public class Bishop extends Chesspieces {
         } else {
             texture = new Texture("BlackBishop.png");
         }
+        points = 30;
     }
 
     @Override
-    public void calculateMoves(List<iTile> tiles) {
-        List<Postition> actuallypossible = new ArrayList<>();
+    public void calculateMoves(ArrayList<iTile> tiles) {
+        ArrayList<Position> actuallypossible = new ArrayList<>();
         boolean check1 = true;
         boolean check2 = false;
         boolean check3 = false;
@@ -75,20 +74,20 @@ public class Bishop extends Chesspieces {
         possibleMoves = actuallypossible;
     }
 
-    private List<Postition> checkTile(iTile tile, List<Postition> actuallypossiblebegin, int newx, int newy) {
-        List<Postition> actuallypossible = actuallypossiblebegin;
+    private ArrayList<Position> checkTile(iTile tile, ArrayList<Position> actuallypossiblebegin, int newx, int newy) {
+        ArrayList<Position> actuallypossible = actuallypossiblebegin;
         if (newx < 0 || newy < 0 || newx > 10 || newy > 10) {
             // outside field
         } else if (tile.hasChesspiece() && !teamhit && firstenemy) {
             if (tile.getChesspieces().white && white || !tile.getChesspieces().white && !white) {
                 teamhit = true;
             } else if (tile.getChesspieces().white && !white || !tile.getChesspieces().white && white) {
-                Postition pos = new Postition(newx, newy);
+                Position pos = new Position(newx, newy);
                 actuallypossible.add(pos);
                 firstenemy = false;
             }
         } else if (!tile.hasChesspiece() && !teamhit && firstenemy) {
-            Postition pos = new Postition(newx, newy);
+            Position pos = new Position(newx, newy);
             actuallypossible.add(pos);
         }
         return actuallypossible;

@@ -1,14 +1,13 @@
 package Objects.ChessPieces;
 
 import Interfaces.iTile;
-import Objects.Tile;
-import SaveLibraries.Postition;
+import SaveLibraries.Position;
 import com.badlogic.gdx.graphics.Texture;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Knight extends Chesspieces {
+
     public Knight(boolean white, int x, int y) {
         super(white, x, y);
         if (white) {
@@ -16,33 +15,34 @@ public class Knight extends Chesspieces {
         } else {
             texture = new Texture("BlackKnight.png");
         }
+        points = 30;
     }
 
     @Override
-    public void calculateMoves(List<iTile> tiles) {
-        Postition pos = new Postition(x+2, y+1);
+    public void calculateMoves(ArrayList<iTile> tiles) {
+        Position pos = new Position(x+2, y+1);
         possibleMoves.add(pos);
-        pos = new Postition(x+2, y-1);
+        pos = new Position(x+2, y-1);
         possibleMoves.add(pos);
-        pos = new Postition(x-2, y+1);
+        pos = new Position(x-2, y+1);
         possibleMoves.add(pos);
-        pos = new Postition(x-2, y-1);
+        pos = new Position(x-2, y-1);
         possibleMoves.add(pos);
-        pos = new Postition(x-1,y+2);
+        pos = new Position(x-1,y+2);
         possibleMoves.add(pos);
-        pos = new Postition(x+1, y+2);
+        pos = new Position(x+1, y+2);
         possibleMoves.add(pos);
-        pos = new Postition(x+1, y-2);
+        pos = new Position(x+1, y-2);
         possibleMoves.add(pos);
-        pos = new Postition(x-1, y-2);
+        pos = new Position(x-1, y-2);
         possibleMoves.add(pos);
         possibleMoves.removeAll(notPossibleMoves(tiles));
     }
 
-    private List<Postition> notPossibleMoves(List<iTile> tiles) {
-        List<Postition> notPossiblePositions = new ArrayList<>();
-        for (Postition pos : possibleMoves) {
-            if(pos.getX() < 0 || pos.getX() > 9 || pos.getY() < 0 || pos.getY() > 9)
+    private ArrayList<Position> notPossibleMoves(ArrayList<iTile> tiles) {
+        ArrayList<Position> notPossiblePositions = new ArrayList<>();
+        for (Position pos : possibleMoves) {
+            if(pos.getX() < 0 || pos.getX() > 8 || pos.getY() < 0 || pos.getY() > 8)
             {
                 notPossiblePositions.add(pos);
             }

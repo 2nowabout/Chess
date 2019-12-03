@@ -1,4 +1,4 @@
-/*package Websockets;
+package Websockets;
 
 import java.net.URI;
 import javax.websocket.ContainerProvider;
@@ -7,7 +7,7 @@ import javax.websocket.WebSocketContainer;
 
 public class Websocket {
     public static void main(String[] args) {
-        URI uri = URI.create("ws://localhost:8095/zeeslag/");
+        URI uri = URI.create("ws://localhost:8096/Chess/");
         try {
             WebSocketContainer container = ContainerProvider.getWebSocketContainer();
             try {
@@ -27,4 +27,4 @@ public class Websocket {
             t.printStackTrace(System.err);
         }
     }
-}*/
+}

@@ -1,13 +1,10 @@
 package Objects.ChessPieces;
 
 import Interfaces.iTile;
-import Objects.Tile;
-import SaveLibraries.Postition;
+import SaveLibraries.Position;
 import com.badlogic.gdx.graphics.Texture;
-import com.twonowabout.Chess;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class King extends Chesspieces {
@@ -22,33 +19,34 @@ public class King extends Chesspieces {
             texture = new Texture("BlackKing.png");
         }
         isKing = true;
+        points = 900;
     }
 
     @Override
-    public void calculateMoves(List<iTile> tiles) {
-        Postition pos = new Postition(x + 1, y);
+    public void calculateMoves(ArrayList<iTile> tiles) {
+        Position pos = new Position(x + 1, y);
         possibleMoves.add(pos);
-        pos = new Postition(x - 1, y);
+        pos = new Position(x - 1, y);
         possibleMoves.add(pos);
-        pos = new Postition(x, y + 1);
+        pos = new Position(x, y + 1);
         possibleMoves.add(pos);
-        pos = new Postition(x, y - 1);
+        pos = new Position(x, y - 1);
         possibleMoves.add(pos);
-        pos = new Postition(x - 1, y + 1);
+        pos = new Position(x - 1, y + 1);
         possibleMoves.add(pos);
-        pos = new Postition(x - 1, y - 1);
+        pos = new Position(x - 1, y - 1);
         possibleMoves.add(pos);
-        pos = new Postition(x + 1, y + 1);
+        pos = new Position(x + 1, y + 1);
         possibleMoves.add(pos);
-        pos = new Postition(x + 1, y - 1);
+        pos = new Position(x + 1, y - 1);
         possibleMoves.add(pos);
         possibleMoves.removeAll(notPossibleMoves(tiles));
     }
 
-    public void checkChecked(List<iTile> tiles)
+    public void checkChecked(ArrayList<iTile> tiles)
     {
-        List<Postition> allenemysmoves = new ArrayList<>();
-        List<Chesspieces> enemypieces = new ArrayList<>();
+        ArrayList<Position> allenemysmoves = new ArrayList<>();
+        ArrayList<Chesspieces> enemypieces = new ArrayList<>();
         for (iTile tile: tiles) {
             if(tile.hasChesspiece())
             {
@@ -66,7 +64,7 @@ public class King extends Chesspieces {
             piece.calculateMoves(tiles);
             allenemysmoves.addAll(piece.possibleMoves);
         }
-        for (Postition position: allenemysmoves) {
+        for (Position position: allenemysmoves) {
             if(position.getX() == x && position.getY() == y)
             {
                 checked = true;
@@ -76,25 +74,25 @@ public class King extends Chesspieces {
         checked = false;
     }
 
-    private List<Postition> notPossibleMoves(List<iTile> tiles) {
-        List<Postition> notPossibleMoves = new ArrayList<>();
-        List<Chesspieces> enemys = new ArrayList<>();
-        List<Postition> allmovesenemy = new ArrayList<>();
+    private ArrayList<Position> notPossibleMoves(ArrayList<iTile> tiles) {
+        ArrayList<Position> notPossibleMoves = new ArrayList<>();
+        ArrayList<Chesspieces> enemys = new ArrayList<>();
+        ArrayList<Position> allmovesenemy = new ArrayList<>();
         enemys = getAllEnemys(tiles);
         for (Chesspieces chess : enemys) {
             chess.calculateMoves(tiles);
             allmovesenemy.addAll(chess.possibleMoves);
         }
-        List<Postition> positionsToRemove = new ArrayList<>();
-        for (Postition kingmoves : possibleMoves) {
-            for (Postition enemymoves : allmovesenemy) {
+        List<Position> positionsToRemove = new ArrayList<>();
+        for (Position kingmoves : possibleMoves) {
+            for (Position enemymoves : allmovesenemy) {
                 if (kingmoves.getX() == enemymoves.getX() && kingmoves.getY() == enemymoves.getY()) {
                     positionsToRemove.add(kingmoves);
                 }
             }
         }
         notPossibleMoves.addAll(positionsToRemove);
-        for (Postition pos : possibleMoves) {
+        for (Position pos : possibleMoves) {
             if(pos.getX() < 0 || pos.getX() > 9 || pos.getY() < 0 || pos.getY() > 9)
             {
                 notPossibleMoves.add(pos);
@@ -112,10 +110,10 @@ public class King extends Chesspieces {
         return notPossibleMoves;
     }
 
-    public boolean checkCheckmate(List<iTile> tiles) {
-        List<Chesspieces> enemys = new ArrayList<>();
-        List<Postition> allmovesenemy = new ArrayList<>();
-        List<Postition> allkingmoves;
+    public boolean checkCheckmate(ArrayList<iTile> tiles) {
+        ArrayList<Chesspieces> enemys = new ArrayList<>();
+        ArrayList<Position> allmovesenemy = new ArrayList<>();
+        ArrayList<Position> allkingmoves;
         if(!checked)
         {
             return false;
@@ -127,9 +125,9 @@ public class King extends Chesspieces {
         }
         calculateMoves(tiles);
         allkingmoves = possibleMoves;
-        List<Postition> positionsToRemove = new ArrayList<>();
-        for (Postition kingmoves : possibleMoves) {
-            for (Postition enemymoves : allmovesenemy) {
+        List<Position> positionsToRemove = new ArrayList<>();
+        for (Position kingmoves : possibleMoves) {
+            for (Position enemymoves : allmovesenemy) {
                 if (kingmoves.getX() == enemymoves.getX() && kingmoves.getY() == enemymoves.getY()) {
                     positionsToRemove.add(kingmoves);
                 }
@@ -143,9 +141,9 @@ public class King extends Chesspieces {
         }
     }
 
-    private List<Chesspieces> getAllEnemys(List<iTile> tiles)
+    private ArrayList<Chesspieces> getAllEnemys(List<iTile> tiles)
     {
-        List<Chesspieces> chesspieces = new ArrayList<>();
+        ArrayList<Chesspieces> chesspieces = new ArrayList<>();
         for (iTile tile : tiles) {
             if (tile.hasChesspiece()) {
                 if (white) {
@@ -165,4 +163,6 @@ public class King extends Chesspieces {
         }
         return chesspieces;
     }
+
+    public boolean isChecked() { return checked; }
 }
