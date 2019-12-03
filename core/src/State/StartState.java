@@ -44,12 +44,12 @@ public class StartState extends State {
                     case "LocalPlay":
                         gsm.setLocalPlay(true);
                         gsm.setSinglePlayer(false);
-                        gsm.push(new GameState(gsm));
+                        gsm.push(new GameState(gsm, true, null));
                         break;
                     case "SinglePlayer":
                         gsm.setLocalPlay(false);
                         gsm.setSinglePlayer(true);
-                        gsm.push(new GameState(gsm));
+                        gsm.push(new GameState(gsm, true, null));
                         break;
                     case "MultiPlayer":
                         gsm.setLocalPlay(false);

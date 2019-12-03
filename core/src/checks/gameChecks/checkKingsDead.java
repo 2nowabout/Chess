@@ -20,11 +20,11 @@ public class checkKingsDead {
                 }
             }
         }
-        if (!white) {
+/*        if (!white) {
             gsm.push(new GameState(gsm));
         }
         if (!black) {
             gsm.push(new GameState(gsm));
-        }
+        }*/
     }
 }

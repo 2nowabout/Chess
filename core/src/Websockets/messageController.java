@@ -8,11 +8,11 @@ public class messageController {
     private static GameStateManager gsm;
     public messageController(GameStateManager gsm)
     {
-        this.gsm = gsm;
+        messageController.gsm = gsm;
     }
 
     public static void handleMessage(JSONObject json)
     {
-
+        handlerContext.processMessage(json, gsm);
     }
 }

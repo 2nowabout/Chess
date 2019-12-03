@@ -24,11 +24,11 @@ public class checkKingsCheck {
                 }
             }
         }
-        if (blackKingDead) {
+/*        if (blackKingDead) {
             gsm.push(new GameState(gsm));
         }
         if (whiteKingDead) {
             gsm.push(new GameState(gsm));
-        }
+        }*/
     }
 }

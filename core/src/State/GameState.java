@@ -6,10 +6,12 @@ import Interfaces.*;
 import Objects.Buttons;
 import Objects.ChessPieces.Pawn;
 import SaveLibraries.Position;
+import Websockets.Websocket;
 import checks.gameChecks.gameChecks;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -21,7 +23,6 @@ public class GameState extends State {
     private boolean clickedOnChesspiece = false;
     private boolean settingsOpen;
     private boolean youAreWhite;
-    private boolean localPlay;
 
     private iButtons settingsButton;
     private iGameChecks checks;
@@ -31,16 +32,16 @@ public class GameState extends State {
     private iTile selectedChessPiece;
     private iBot bot;
     private State settings;
+    private Websocket client;
 
 
-    public GameState(GameStateManager gsm) {
+    public GameState(GameStateManager gsm, boolean firstToPlay, Websocket client) {
         super(gsm);
         this.gsm = gsm;
         bord = new ArrayList<>();
         canMovePosition = new ArrayList<>();
         iGenerateBord bordGenerator = new generateBord();
         bord = bordGenerator.generate(); //generate start layout
-        localPlay = gsm.isLocalPlay();
         turn = true;
         checks = new gameChecks();
         settingsButton = new Buttons(Gdx.graphics.getWidth() - 200, Gdx.graphics.getHeight() - 100, "", 50, 50, "settings.png");
@@ -49,6 +50,12 @@ public class GameState extends State {
             youAreWhite = true;
         }
         settings = new Settings(gsm, this);
+        this.client = client;
+        if (firstToPlay) {
+            youAreWhite = true;
+        } else {
+            youAreWhite = false;
+        }
     }
 
     @Override
@@ -109,7 +116,7 @@ public class GameState extends State {
     }
 
     private void checkSelectedPiece(iTile tile, Rectangle mouseRectangle) {
-        if (!localPlay && tile.getChesspieces().getRectangle().intersects(mouseRectangle) && youAreWhite == tile.getChesspieces().getColor()) { // check if mouse rectangle is on a chesspiece
+        if (gsm.isSinglePlayer() && tile.getChesspieces().getRectangle().intersects(mouseRectangle) && youAreWhite == tile.getChesspieces().getColor()) { // check if mouse rectangle is on a chesspiece
             if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) { // if user clicks on the chesspiece
                 tile.getChesspieces().calculateMoves(bord);
                 canMovePosition = tile.getChesspieces().getPossibleMoves();
@@ -117,7 +124,16 @@ public class GameState extends State {
                 selectedChessPiece = tile;
             }
         }
-        if (localPlay && tile.getChesspieces().getRectangle().intersects(mouseRectangle) && turn == tile.getChesspieces().getColor()) {
+        if (gsm.isLocalPlay() && tile.getChesspieces().getRectangle().intersects(mouseRectangle) && turn == tile.getChesspieces().getColor()) {
+            if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) { // if user clicks on the chesspiece
+                tile.getChesspieces().calculateMoves(bord);
+                canMovePosition = tile.getChesspieces().getPossibleMoves();
+                clickedOnChesspiece = true;
+                selectedChessPiece = tile;
+            }
+        }
+        if(gsm.isMultiPlayer() && tile.getChesspieces().getRectangle().intersects(mouseRectangle) && turn == tile.getChesspieces().getColor())
+        {
             if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) { // if user clicks on the chesspiece
                 tile.getChesspieces().calculateMoves(bord);
                 canMovePosition = tile.getChesspieces().getPossibleMoves();
@@ -131,7 +147,7 @@ public class GameState extends State {
         if (gsm.isSinglePlayer()) {
             bot.updateBord(bord);
             bot.act();
-        } else if (localPlay) {
+        } else if (gsm.isLocalPlay()) {
             turn = !turn;
         } else {
             turn = !turn;
@@ -168,9 +184,21 @@ public class GameState extends State {
         }
     }
 
-    public void enemyMove()
-    {
-
+    public void enemyMove(Position newPos, Position oldPos) {
+        iTile oldTile = null;
+        iTile newTile = null;
+        for (iTile tile : bord) {
+            if (tile.getX() == oldPos.getX() && tile.getY() == oldPos.getY()) {
+                oldTile = tile;
+            } else if (tile.getX() == newPos.getX() && tile.getY() == newPos.getY()) {
+                newTile = tile;
+            }
+        }
+        newTile.setChesspieces(oldTile.getChesspieces());
+        oldTile.removeChestpiece();
     }
-    public void setSettingsOpen(boolean settingsOpen) { this.settingsOpen = settingsOpen; }
+
+    public void setSettingsOpen(boolean settingsOpen) {
+        this.settingsOpen = settingsOpen;
+    }
 }
