@@ -12,4 +12,6 @@ public interface iGameChecks {
     void checkTile(iTile tile, ArrayList<Position> canMovePosition, float dt);
     void checkKings(GameStateManager gsm, ArrayList<iTile> bord);
     void checkKingsdead(GameStateManager gsm, ArrayList<iTile> bord);
+    boolean hasWhiteWon();
+    boolean hasBlackWon();
 }

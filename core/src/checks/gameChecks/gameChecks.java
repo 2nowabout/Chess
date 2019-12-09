@@ -16,26 +16,48 @@ public class gameChecks implements iGameChecks {
     private checkKingsCheck checkKingsCheck;
     private checkKingsDead checkKingsDead;
 
-    public gameChecks()
-    {
+    private boolean whiteWon = false;
+    private boolean blackWon = false;
+
+    public gameChecks() {
         settingsCheck = new openSettingsCheck();
         closeAppCheck = new closeAppCheck();
         tileMoveCheck = new checkTileForMoveAllowed();
         checkKingsCheck = new checkKingsCheck();
         checkKingsDead = new checkKingsDead();
     }
-    public boolean openSettingsCheck(iButtons settingsButton, Rectangle mouseRectangle, boolean isopen)
-    {
-        if(!isopen) {
+
+    public boolean openSettingsCheck(iButtons settingsButton, Rectangle mouseRectangle, boolean isopen) {
+        if (!isopen) {
             return settingsCheck.checkSettings(settingsButton, mouseRectangle);
         }
         return true;
     }
-    public void closeApp()
-    {
+
+    public void closeApp() {
         closeAppCheck.closeApp();
     }
-    public void checkTile(iTile tile, ArrayList<Position> canMovePosition, float dt) { tileMoveCheck.checkTile(tile, canMovePosition, dt); }
-    public void checkKings(GameStateManager gsm, ArrayList<iTile> bord) { checkKingsCheck.checkKings(gsm, bord); }
-    public void checkKingsdead(GameStateManager gsm, ArrayList<iTile> bord) { checkKingsDead.checkWin(gsm, bord); }
+
+    public void checkTile(iTile tile, ArrayList<Position> canMovePosition, float dt) {
+        tileMoveCheck.checkTile(tile, canMovePosition, dt);
+    }
+
+    public void checkKings(GameStateManager gsm, ArrayList<iTile> bord) {
+        if (checkKingsCheck.checkKings(gsm, bord, true)) {
+            blackWon = true;
+        } else if (checkKingsCheck.checkKings(gsm, bord, false)) {
+            whiteWon = true;
+        }
+    }
+
+    public void checkKingsdead(GameStateManager gsm, ArrayList<iTile> bord) {
+        if (checkKingsDead.checkWin(gsm, bord, true)) {
+            blackWon = true;
+        } else if (checkKingsDead.checkWin(gsm, bord, false)) {
+            whiteWon = true;
+        }
+    }
+
+    public boolean hasWhiteWon() { return whiteWon; }
+    public boolean hasBlackWon() { return blackWon; }
 }

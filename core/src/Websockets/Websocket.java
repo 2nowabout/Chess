@@ -10,12 +10,14 @@ import javax.websocket.WebSocketContainer;
 public class Websocket {
     private final static String uri = "ws://localhost:8096/Chess/";
     Session session;
+    private jsonCreator jsonCreator;
     public Websocket(){
         try {
             WebSocketContainer container = ContainerProvider.getWebSocketContainer();
             try {
                 // Attempt Connect
                 session = container.connectToServer(WebsocketEndpoint.class, new URI(uri));
+                jsonCreator = new jsonCreator(session);
             }
             catch (Exception e)
             {
@@ -23,15 +25,6 @@ public class Websocket {
             }
         } catch (Exception t) {
             t.printStackTrace();
-        }
-    }
-    public void sendMessage(JSONObject message) {
-        try {
-            session.getBasicRemote().sendObject(message);
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
         }
     }
 
@@ -46,4 +39,6 @@ public class Websocket {
             e.printStackTrace();
         }
     }
+
+    public jsonCreator getJsonCreator() { return jsonCreator; }
 }

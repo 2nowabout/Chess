@@ -3,33 +3,20 @@ package State;
 import Websockets.Websocket;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.assets.loaders.AssetLoader;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
-import java.awt.*;
-
-public class LoginState extends State {
-
-    private TextField field;
-    private Stage stage;
+public class QueueState extends State {
 
     private BitmapFont font;
     private Websocket client;
     private boolean matchFound = false;
     private boolean firstToPlay;
 
-    public LoginState(GameStateManager gsm) {
+    public QueueState(GameStateManager gsm) {
         super(gsm);
         font = new BitmapFont();
         client = new Websocket();
-       /* stage = new Stage();
-        Gdx.input.setInputProcessor(stage);
-        Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
-        com.badlogic.gdx.scenes.scene2d.ui.TextField textField = new com.badlogic.gdx.scenes.scene2d.ui.TextField("", skin);
-        stage.addActor(textField);*/
     }
 
     @Override
@@ -58,6 +45,14 @@ public class LoginState extends State {
 
     @Override
     public void dispose() {
+        font.dispose();
+    }
 
+    public void setMatchFound(boolean matchFound) {
+        this.matchFound = matchFound;
+    }
+    public void setFirstToFire(boolean firstToFire)
+    {
+        this.firstToPlay = firstToFire;
     }
 }

@@ -1,24 +1,24 @@
 package State;
 
+import AI.Bot;
 import Functions.generateBord;
 import Interfaces.*;
 import Objects.Buttons;
 import Objects.ChessPieces.Pawn;
 import SaveLibraries.Position;
-import Websockets.Websocket;
 import checks.gameChecks.gameChecks;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import drawWins.DrawWins;
 
 import java.awt.*;
 import java.util.ArrayList;
 
-public class GameState extends State {
+public class SinglePlayerGameState extends State {
 
     private GameStateManager gsm;
 
-    private boolean turn;
     private boolean clickedOnChesspiece = false;
     private boolean settingsOpen;
     private boolean youAreWhite;
@@ -29,28 +29,23 @@ public class GameState extends State {
     private ArrayList<iTile> bord;
     private ArrayList<Position> canMovePosition;
     private iTile selectedChessPiece;
+    private iBot bot;
     private State settings;
-    private Websocket client;
+    private DrawWins drawWins;
 
-
-    public GameState(GameStateManager gsm, boolean firstToPlay, Websocket client) {
+    protected SinglePlayerGameState(GameStateManager gsm) {
         super(gsm);
         this.gsm = gsm;
         bord = new ArrayList<>();
         canMovePosition = new ArrayList<>();
         iGenerateBord bordGenerator = new generateBord();
         bord = bordGenerator.generate(); //generate start layout
-        turn = true;
         checks = new gameChecks();
         settingsButton = new Buttons(Gdx.graphics.getWidth() - 200, Gdx.graphics.getHeight() - 100, "", 50, 50, "settings.png");
+        bot = new Bot(bord);
+        youAreWhite = true;
         settings = new Settings(gsm, this);
-        this.client = client;
-        if (firstToPlay) {
-            youAreWhite = true;
-        } else {
-            youAreWhite = false;
-            turn = false;
-        }
+        drawWins = new DrawWins();
     }
 
     @Override
@@ -88,6 +83,11 @@ public class GameState extends State {
         }
         checks.checkKings(gsm, bord);
         checks.checkKingsdead(gsm, bord);
+        if (checks.hasBlackWon()) {
+
+        } else if (checks.hasWhiteWon()) {
+
+        }
     }
 
     @Override
@@ -100,6 +100,7 @@ public class GameState extends State {
         if (settingsOpen) {
             settings.render(sb);
         }
+        drawWins.drawWin(sb, checks.hasBlackWon(), checks.hasWhiteWon());
         sb.end();
     }
 
@@ -111,7 +112,7 @@ public class GameState extends State {
     }
 
     private void checkSelectedPiece(iTile tile, Rectangle mouseRectangle) {
-        if (tile.getChesspieces().getRectangle().intersects(mouseRectangle) && youAreWhite == tile.getChesspieces().getColor() && turn) {
+        if (tile.getChesspieces().getRectangle().intersects(mouseRectangle) && youAreWhite == tile.getChesspieces().getColor()) { // check if mouse rectangle is on a chesspiece
             if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) { // if user clicks on the chesspiece
                 tile.getChesspieces().calculateMoves(bord);
                 canMovePosition = tile.getChesspieces().getPossibleMoves();
@@ -122,7 +123,8 @@ public class GameState extends State {
     }
 
     private void endTurn() {
-        turn = !turn;
+        bot.updateBord(bord);
+        bot.act();
     }
 
     private void chesspieceMoveActionCheck(iTile tile, Rectangle mouseRectangle) {
@@ -147,28 +149,12 @@ public class GameState extends State {
                             tileRemove.getChesspieces().resetMoves();
                             canMovePosition = new ArrayList<>();
                             tileRemove.removeChestpiece();
-                            client.getJsonCreator().moveCreator(tileRemove, tile, youAreWhite);
                             endTurn();
                         }
                     }
                 }
             }
         }
-    }
-
-    public void enemyMove(Position newPos, Position oldPos) {
-        iTile oldTile = null;
-        iTile newTile = null;
-        for (iTile tile : bord) {
-            if (tile.getX() == oldPos.getX() && tile.getY() == oldPos.getY()) {
-                oldTile = tile;
-            } else if (tile.getX() == newPos.getX() && tile.getY() == newPos.getY()) {
-                newTile = tile;
-            }
-        }
-        newTile.setChesspieces(oldTile.getChesspieces());
-        oldTile.removeChestpiece();
-        turn = !turn;
     }
 
     public void setSettingsOpen(boolean settingsOpen) {

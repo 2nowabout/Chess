@@ -7,8 +7,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class Settings extends State {
 
     private Texture white;
-    private GameState oldState;
-    public Settings(GameStateManager gsm, GameState oldstate) {
+    private State oldState;
+    public Settings(GameStateManager gsm, State oldstate) {
         super(gsm);
         oldState = oldstate;
         white = new Texture("WhiteSeeThrough.png");
