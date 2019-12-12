@@ -1,5 +1,6 @@
 package com.twonowabout;
 
+import com.Chess;
 import org.robovm.apple.foundation.NSAutoreleasePool;
 import org.robovm.apple.uikit.UIApplication;
 

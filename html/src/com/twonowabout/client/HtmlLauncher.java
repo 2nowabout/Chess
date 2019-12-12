@@ -1,9 +1,9 @@
 package com.twonowabout.client;
 
+import com.Chess;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.gwt.GwtApplication;
 import com.badlogic.gdx.backends.gwt.GwtApplicationConfiguration;
-import com.twonowabout.Chess;
 
 public class HtmlLauncher extends GwtApplication {
 
