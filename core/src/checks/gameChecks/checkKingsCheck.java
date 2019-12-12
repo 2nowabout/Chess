@@ -7,9 +7,7 @@ import State.GameStateManager;
 import java.util.ArrayList;
 
 public class checkKingsCheck {
-    public boolean checkKings(GameStateManager gsm, ArrayList<iTile> bord, boolean isWhite){
-        boolean whiteKingDead = false;
-        boolean blackKingDead = false;
+    public boolean checkKings(ArrayList<iTile> bord, boolean isWhite){
         for (iTile tile : bord) {
             if (tile.hasChesspiece()) {
                 if (tile.getChesspieces().isKing()) {

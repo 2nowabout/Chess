@@ -10,7 +10,7 @@ import checks.gameChecks.gameChecks;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import drawWins.DrawWins;
+import draw.DrawWins;
 
 import java.awt.*;
 import java.util.ArrayList;

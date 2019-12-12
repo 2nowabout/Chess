@@ -88,6 +88,14 @@ public class GameState extends State {
         }
         checks.checkKings(gsm, bord);
         checks.checkKingsdead(gsm, bord);
+        if(checks.hasWhiteWon())
+        {
+
+        }
+        else
+        {
+
+        }
     }
 
     @Override
