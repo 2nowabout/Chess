@@ -25,5 +25,6 @@ public class Draw {
     {
         this.name.Draw(sb, name);
     }
+    public void DrawWin(SpriteBatch sb, boolean blackwin, boolean whitewin) {this.wins.drawWin(sb, blackwin, whitewin);}
 
 }
