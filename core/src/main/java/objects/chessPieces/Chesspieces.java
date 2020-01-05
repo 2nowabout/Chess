@@ -55,4 +55,6 @@ public abstract class Chesspieces {
     public boolean isPawn() { return isPawn; }
     public void dispose() { texture.dispose(); }
     public int getPoints() { return points; }
+    public int getX() { return x; }
+    public int getY() { return y; }
 }

@@ -5,10 +5,14 @@ import interfaces.iBot;
 import interfaces.iTile;
 import objects.chessPieces.Chesspieces;
 import saveLibraries.Position;
+import state.SinglePlayerGameState;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
 
 public class Bot implements iBot {
     private ArrayList<iTile> bord;
@@ -17,33 +21,39 @@ public class Bot implements iBot {
     private List<Position> possibleEnemyPositions;
     private List<Position> possibleAllyPositions;
     private bestMoveCalculator calculator = new bestMoveCalculator();
+    private MinMaxAlgorithm algorithm;
     allMovesCalculator allmovescalc = new allMovesCalculator();
+    ThreadPoolExecutor pool;
 
-    public Bot(ArrayList<iTile> tiles)
+    public Bot(ArrayList<iTile> tiles, int depth, SinglePlayerGameState single)
     {
         bord = tiles;
+        algorithm = new MinMaxAlgorithm(depth, single);
+        pool = (ThreadPoolExecutor) Executors.newFixedThreadPool(2);
     }
 
     public void updateBord(ArrayList<iTile> tiles)
     {
         bord = tiles;
+        algorithm.updateBord(tiles);
     }
 
     public void act()
     {
-        enemyChesspieces = new ArrayList<>();
+        minMaxAlgorithm();
+        /*enemyChesspieces = new ArrayList<>();
         botChesspieces = new ArrayList<>();
         possibleAllyPositions = new ArrayList<>();
         possibleEnemyPositions = new ArrayList<>();
         List<iTile> toRemove = getAlliesAndEnemys();
         List<Moves> CheckMoves =  allmovescalc.calcAllMoves(botChesspieces, bord);
 
-/*        for (Chesspieces chesspiece : enemyChesspieces) {
+*//*        for (Chesspieces chesspiece : enemyChesspieces) {
             chesspiece.calculateMoves(bord);
             if(!chesspiece.getPossibleMoves().isEmpty() || chesspiece.getPossibleMoves() != null) {
                 possibleEnemyPositions.addAll(chesspiece.getPossibleMoves());
             }
-        }*/
+        }*//*
 
         Random rnd = new Random();
         boolean canWork = false;
@@ -87,12 +97,12 @@ public class Bot implements iBot {
             }
         }
 
-        chesspiece.resetMoves();
+        chesspiece.resetMoves();*/
     }
 
     private void minMaxAlgorithm()
     {
-
+        Object i = pool.submit(algorithm);
     }
 
     private List<iTile> getAlliesAndEnemys()
