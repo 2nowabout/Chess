@@ -24,6 +24,7 @@ public class LocalGameState extends State {
     private boolean turn;
     private boolean clickedOnChesspiece = false;
     private boolean settingsOpen;
+    private boolean needToCheck = false;
 
     private iButtons settingsButton;
     private iGameChecks checks;
@@ -64,7 +65,6 @@ public class LocalGameState extends State {
                 chesspieceMoveActionCheck(tile, mouseRectangle);
             }
         }
-        checks.checkKings(gsm, bord);
     }
 
     @Override
@@ -75,12 +75,15 @@ public class LocalGameState extends State {
             checks.checkTile(tile, canMovePosition, dt);
             settingsButton.update(dt);
         }
+        if(needToCheck) {
+            checks.checkKings(gsm, bord);
+            checks.checkKingsdead(gsm, bord);
+            needToCheck = false;
+        }
         handleInput();
         if (settingsOpen) {
             settings.update(dt);
         }
-        checks.checkKings(gsm, bord);
-        checks.checkKingsdead(gsm, bord);
     }
 
     @Override
@@ -140,6 +143,7 @@ public class LocalGameState extends State {
                             tileRemove.getChesspieces().resetMoves();
                             canMovePosition = new ArrayList<>();
                             tileRemove.removeChestpiece();
+                            needToCheck = true;
                             endTurn();
                         }
                     }

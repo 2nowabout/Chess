@@ -31,7 +31,7 @@ public class MinAlgorithm implements iMinMaxAlgorithm {
             List<Chesspieces> enemys = getChesspieces.getEnemyChesspieces(lists);
             allmoves = allMovesCalculator.calcAllMoves(enemys, lists);
 
-            double average = averageCalculator.calculateAverage(moves);
+            double average = averageCalculator.calculateAverage(allmoves);
             for (Moves move : allmoves) {
                 if (move.getPoints() <= average) {
                     moves.add(move);

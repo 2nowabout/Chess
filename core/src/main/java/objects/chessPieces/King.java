@@ -40,6 +40,7 @@ public class King extends Chesspieces {
         possibleMoves.add(pos);
         pos = new Position(x + 1, y - 1);
         possibleMoves.add(pos);
+
         possibleMoves.removeAll(notPossibleMoves(tiles));
     }
 
@@ -80,8 +81,10 @@ public class King extends Chesspieces {
         ArrayList<Position> allmovesenemy = new ArrayList<>();
         enemys = getAllEnemys(tiles);
         for (Chesspieces chess : enemys) {
-            chess.calculateMoves(tiles);
-            allmovesenemy.addAll(chess.possibleMoves);
+            /*if(!chess.isKing) {*/
+                chess.calculateMoves(tiles);
+                allmovesenemy.addAll(chess.possibleMoves);
+            //}
         }
         List<Position> positionsToRemove = new ArrayList<>();
         for (Position kingmoves : possibleMoves) {

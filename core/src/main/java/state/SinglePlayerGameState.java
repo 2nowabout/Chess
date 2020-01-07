@@ -23,6 +23,7 @@ public class SinglePlayerGameState extends State {
     private boolean settingsOpen;
     private boolean youAreWhite;
     private boolean turn;
+    private boolean needToCheck;
 
     private iButtons settingsButton;
     private iGameChecks checks;
@@ -68,7 +69,6 @@ public class SinglePlayerGameState extends State {
                 chesspieceMoveActionCheck(tile, mouseRectangle);
             }
         }
-        checks.checkKings(gsm, bord);
     }
 
     @Override
@@ -79,12 +79,15 @@ public class SinglePlayerGameState extends State {
             checks.checkTile(tile, canMovePosition, dt);
             settingsButton.update(dt);
         }
+        if(needToCheck) {
+            checks.checkKings(gsm, bord);
+            checks.checkKingsdead(gsm, bord);
+            needToCheck = false;
+        }
         handleInput();
         if (settingsOpen) {
             settings.update(dt);
         }
-        checks.checkKings(gsm, bord);
-        checks.checkKingsdead(gsm, bord);
     }
 
     @Override
@@ -147,6 +150,7 @@ public class SinglePlayerGameState extends State {
                             tileRemove.getChesspieces().resetMoves();
                             canMovePosition = new ArrayList<>();
                             tileRemove.removeChestpiece();
+                            needToCheck = true;
                             endTurn();
                         }
                     }

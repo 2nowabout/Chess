@@ -15,7 +15,8 @@ public class BotGetChesspieces {
             if(tile.hasChesspiece())
             {
                 if(!tile.getChesspieces().getColor()) {
-                    allPieces.add(tile.getChesspieces());
+                    Chesspieces toAdd = tile.getChesspieces();
+                    allPieces.add(toAdd);
                 }
             }
         }
@@ -28,7 +29,8 @@ public class BotGetChesspieces {
             if(tile.hasChesspiece())
             {
                 if(tile.getChesspieces().getColor()) {
-                    allPieces.add(tile.getChesspieces());
+                    Chesspieces toAdd = tile.getChesspieces();
+                    allPieces.add(toAdd);
                 }
             }
         }

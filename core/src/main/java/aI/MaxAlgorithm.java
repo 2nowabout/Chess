@@ -29,8 +29,7 @@ public class MaxAlgorithm implements iMinMaxAlgorithm {
         for (List<iTile> lists : borden) {
             List<Chesspieces> allies = getChesspieces.getAllyChessPieces(lists);
             allmoves = allMovesCalculator.calcAllMoves(allies, lists);
-
-            double average = averageCalculator.calculateAverage(moves);
+            double average = averageCalculator.calculateAverage(allmoves);
             for (Moves move : allmoves) {
                 if (move.getPoints() >= average) {
                     moves.add(move);
