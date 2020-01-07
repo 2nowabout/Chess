@@ -37,7 +37,8 @@ public class DbClass {
         CachedRowSet crs = RowSetProvider.newFactory().createCachedRowSet();
         ResultSet resultSet = null;
         try{
-            connection = DriverManager.getConnection(url);
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chess", "root", "");
             PreparedStatement statement = connection.prepareStatement(procedure);
 
             for (int i = 1; i <= map.size(); i++) {

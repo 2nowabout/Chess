@@ -31,9 +31,9 @@ public class ChessLogin {
     }
 
     public boolean login(String userName, String inputPassword){
-        String procedure = "SELECT userName, password FROM [dbo].[User] WHERE userName = ?";
+        String procedure = "SELECT userName, password FROM `login` WHERE userName = ?";
         if(userName.contains("@"))
-            procedure = "SELECT email, password FROM [dbo].[User] WHERE email = ?";
+            procedure = "SELECT email, password FROM `login` WHERE email = ?";
         Map<Integer, Object> map = new HashMap<Integer, Object>();
         map.put(1, userName);
         try{
