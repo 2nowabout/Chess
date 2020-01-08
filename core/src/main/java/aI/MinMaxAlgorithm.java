@@ -38,14 +38,18 @@ public class MinMaxAlgorithm implements Callable {
         allmoves = new ArrayList<>();
         borden = new ArrayList<>();
         borden.add(bord);
+        System.out.println("start algo");
         for(int i = 0; i < depth; i++)
         {
             max.algorithm(borden);
             allmoves.add(max.getMoves());
+            System.out.println("max algo Done");
             min.algorithm(max.getAllBorden());
             borden = min.getAllBorden();
             allmoves.add(min.getMoves());
+            System.out.println("one depth done");
         }
+        System.out.println("completed algo");
         single.switchTurn();
         return null; //TODO get best move in right order and return next move bot has too do
     }

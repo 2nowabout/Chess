@@ -1,5 +1,6 @@
 package aI;
 
+import objects.Tile;
 import saveLibraries.Moves;
 import interfaces.iBot;
 import interfaces.iTile;
@@ -29,13 +30,25 @@ public class Bot implements iBot {
     {
         bord = tiles;
         algorithm = new MinMaxAlgorithm(depth, single);
-        pool = (ThreadPoolExecutor) Executors.newFixedThreadPool(2);
+        pool = (ThreadPoolExecutor) Executors.newFixedThreadPool(1);
     }
 
     public void updateBord(ArrayList<iTile> tiles)
     {
-        bord = tiles;
-        algorithm.updateBord(tiles);
+        ArrayList<iTile> botBord = new ArrayList<>();
+        for (iTile tile: tiles) {
+            iTile toAddTile = new Tile(0,0, tile.getX(), tile.getY(), "WhiteTile.png");
+            toAddTile.setChesspieces(tile.getChesspieces());
+            botBord.add(toAddTile);
+        }
+        System.out.println(botBord.size());
+        bord = botBord;
+        algorithm.updateBord(botBord);
+    }
+
+    private void minMaxAlgorithm()
+    {
+        Object i = pool.submit(algorithm);
     }
 
     public void act()
@@ -100,12 +113,8 @@ public class Bot implements iBot {
         chesspiece.resetMoves();*/
     }
 
-    private void minMaxAlgorithm()
-    {
-        Object i = pool.submit(algorithm);
-    }
-
-    private List<iTile> getAlliesAndEnemys()
+/*
+    private List<iTile> getAlliesAndEnemies()
     {
         List<iTile> toRemove = new ArrayList<>();
         for (iTile tile: bord) {
@@ -124,5 +133,5 @@ public class Bot implements iBot {
             }
         }
         return toRemove;
-    }
+    }*/
 }

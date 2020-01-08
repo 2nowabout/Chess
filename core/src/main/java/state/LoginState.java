@@ -103,6 +103,8 @@ public class LoginState extends State {
         if(loggedIn)
         {
             Websocket client = new Websocket();
+            try { Thread.sleep(50); }
+            catch (Exception e) { e.printStackTrace();}
             gsm.push(new QueueState(gsm, client.getJsonCreator()));
         }
         handleInput();
