@@ -34,7 +34,7 @@ public class ChessRESTservice {
     @Produces(MediaType.APPLICATION_JSON)
     public Response register(AccountDTO accountDTO){
         if(alienWarsLogin.register(accountDTO.getUsername(),accountDTO.getPassword(), accountDTO.getEmailRegister())){
-            return Response.status(200).entity(RestResponseHelper.getSuccesResponse()).build();
+            return Response.ok(RestResponseHelper.getSuccesResponse(), MediaType.APPLICATION_JSON).build();
         }else
             return Response.status(500).entity(RestResponseHelper.getErrorResponseString()).build();
     }

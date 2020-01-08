@@ -66,7 +66,6 @@ public class LoginState extends State {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
 
-
             }
         });
         stage.addActor(loginBtn);

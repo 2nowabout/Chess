@@ -1,4 +1,3 @@
-include 'desktop', 'ios', 'html', 'core'
-include 'RESTServer'
+include 'desktop', 'ios', 'html', 'core', 'RESTServer'
 include 'Shared'
 

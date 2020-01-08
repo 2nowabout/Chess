@@ -4,7 +4,7 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import org.glassfish.jersey.servlet.ServletContainer;
 
 public class ChessREST {
-    public ChessREST() throws Exception {
+    public static void main(String[] args) {
         ServletContextHandler context = new
                 ServletContextHandler(ServletContextHandler.SESSIONS);
         context.setContextPath("/");
@@ -18,7 +18,12 @@ public class ChessREST {
         try {
             jettyServer.start();
             jettyServer.join();
-        } finally {
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally
+         {
             jettyServer.destroy();
         }
     }

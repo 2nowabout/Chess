@@ -4,8 +4,8 @@ buildscript {
         mavenCentral()
         maven { url "https://plugins.gradle.org/m2/" }
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
-        jcenter()
         google()
+        jcenter()
     }
     dependencies {
         classpath 'org.wisepersist:gwt-gradle-plugin:1.0.9'
@@ -38,8 +38,8 @@ allprojects {
     repositories {
         mavenLocal()
         mavenCentral()
-        jcenter()
         google()
+        jcenter()
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         maven { url "https://oss.sonatype.org/content/repositories/releases/" }
     }
@@ -104,6 +104,7 @@ project(":core") {
         compile group: 'javax.websocket', name: 'javax.websocket-api', version: '1.1'
         compile group: 'org.glassfish.tyrus.bundles', name: 'tyrus-standalone-client', version: '1.9'
         compile group: 'org.json', name: 'json', version: '20090211'
+        compile group: 'com.google.code.gson', name: 'gson', version: '2.7'
     }
 }
 
