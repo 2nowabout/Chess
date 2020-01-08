@@ -72,7 +72,7 @@ public class RegisterState extends State {
         registerStateBtn.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                if(txtPassword.getText().equals(txtPasswordCheck.getText())) {
+                if(txtPassword.getText().equals(txtPasswordCheck.getText())) { //TODO show warning if not equal
                     restCommunicator.Register(txtUsername.getText(), txtPassword.getText(), txtEmail.getText());
                 }
             }

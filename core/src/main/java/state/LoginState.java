@@ -113,10 +113,10 @@ public class LoginState extends State {
     public void render(SpriteBatch sb) {
 
         stage.getBatch().begin();
-        font.draw(stage.getBatch(), "Login", Gdx.graphics.getHeight() /2, (Gdx.graphics.getWidth()/2) - 30);
+        font.draw(stage.getBatch(), "Login", Gdx.graphics.getHeight() /2, (Gdx.graphics.getWidth()/2) - 30); //TODO not working
         if(failed)
         {
-            font.draw(stage.getBatch(), "Wrong Credentials", (Gdx.graphics.getHeight()/6) * 5, Gdx.graphics.getWidth()/2 - 40);
+            font.draw(stage.getBatch(), "Wrong Credentials", (Gdx.graphics.getHeight()/6) * 5, Gdx.graphics.getWidth()/2 - 40); //TODO not working
         }
         stage.getBatch().draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         stage.getBatch().end();
