@@ -54,9 +54,10 @@ public class ChessLogin {
         try{
             CachedRowSet cachedRowSet = dbClass.executeQuery(procedure, map);
             while (cachedRowSet.next()){
-                accounts.add(new AccountDTO(cachedRowSet.getInt("userId"),
+                accounts.add(new AccountDTO(
                         cachedRowSet.getString("userName"),
-                        cachedRowSet.getString("password")));
+                        cachedRowSet.getString("password"),
+                        cachedRowSet.getString("email")));
             }
         }catch(SQLException e){
             e.printStackTrace();

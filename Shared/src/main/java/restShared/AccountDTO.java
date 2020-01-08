@@ -1,16 +1,15 @@
 package restShared;
 
 public class AccountDTO {
-    private int accountID;
     private String username;
     private String password;
-    private String emailRegister;
+    private String email;
 
     public AccountDTO() {
     }
 
-    public AccountDTO(int accountID, String username, String password) {
-        this.accountID = accountID;
+    public AccountDTO(String username, String password, String email) {
+        this.email = email;
         this.username = username;
         this.password = password;
     }
@@ -23,9 +22,5 @@ public class AccountDTO {
         return password;
     }
 
-    public String getEmailRegister() {return emailRegister; }
-
-    public int getAccountID() {
-        return accountID;
-    }
+    public String getEmail() {return email; }
 }

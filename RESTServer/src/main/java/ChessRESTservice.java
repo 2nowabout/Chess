@@ -23,7 +23,7 @@ public class ChessRESTservice {
     @Produces(MediaType.APPLICATION_JSON)
     public Response login(AccountDTO accountDTO){
         if(alienWarsLogin.login(accountDTO.getUsername(), accountDTO.getPassword())){
-            return Response.status(200).entity(RestResponseHelper.getSuccesResponse()).build();
+            return Response.ok(RestResponseHelper.getSuccesResponse(), MediaType.APPLICATION_JSON).build();
         }
         return Response.status(400).entity(RestResponseHelper.getErrorResponseString()).build();
     }
@@ -33,7 +33,7 @@ public class ChessRESTservice {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response register(AccountDTO accountDTO){
-        if(alienWarsLogin.register(accountDTO.getUsername(),accountDTO.getPassword(), accountDTO.getEmailRegister())){
+        if(alienWarsLogin.register(accountDTO.getUsername(),accountDTO.getPassword(), accountDTO.getEmail())){
             return Response.ok(RestResponseHelper.getSuccesResponse(), MediaType.APPLICATION_JSON).build();
         }else
             return Response.status(500).entity(RestResponseHelper.getErrorResponseString()).build();

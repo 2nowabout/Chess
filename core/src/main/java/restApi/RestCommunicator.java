@@ -1,6 +1,7 @@
 package restApi;
 
 import com.google.gson.Gson;
+import jdk.vm.ci.code.Register;
 import org.json.JSONObject;
 import restShared.AccountResponse;
 
@@ -12,6 +13,7 @@ import java.net.URL;
 
 
 public class RestCommunicator {
+
     private HttpURLConnection conn;
 
     public boolean Login(String username, String password) {
@@ -23,30 +25,53 @@ public class RestCommunicator {
             conn.setRequestProperty("Content-Type", "application/json");
 
             JSONObject input = new JSONObject();
-            input.put("username", "odin2001");
-            input.put("password", "huts");
+            input.put("username", username);
+            input.put("password", password);
             OutputStream os = conn.getOutputStream();
             os.write(input.toString().getBytes());
             os.flush();
 
             if (conn.getResponseCode() != 200) {
-                throw new RuntimeException("Failed : HTTP error code : "
-                        + conn.getResponseCode());
-            }
-            else
-            {
+                return false;
+            } else {
                 return getValue();
             }
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return false;
     }
 
-    private boolean getValue()
-    {
+    public boolean Register(String username, String password, String email) {
+        try {
+            URL url = new URL("http://localhost:1234/auth/register");
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setDoOutput(true);
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("Content-Type", "application/json");
+
+            JSONObject input = new JSONObject();
+            input.put("username", username);
+            input.put("password", password);
+            input.put("email", email);
+            OutputStream os = conn.getOutputStream();
+            os.write(input.toString().getBytes());
+            os.flush();
+
+            if (conn.getResponseCode() != 200) {
+                return false;
+            } else {
+                boolean complete = getValue();
+                System.out.println(complete);
+                return complete;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    private boolean getValue() {
         String token = null;
         try {
             BufferedReader in = new BufferedReader(
@@ -63,17 +88,12 @@ public class RestCommunicator {
             Gson gson = new Gson();
             AccountResponse response = gson.fromJson(token, AccountResponse.class);
 
-            if(response.isSuccess())
-            {
+            if (response.isSuccess()) {
                 return true;
-            }
-            else
-            {
+            } else {
                 return false;
             }
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return false;
