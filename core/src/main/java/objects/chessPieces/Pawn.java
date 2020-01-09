@@ -12,11 +12,6 @@ public class Pawn extends Chesspieces {
 
     public Pawn(boolean white, int x, int y) {
         super(white, x, y);
-        if (white) {
-            texture = new Texture("WhitePawn.png");
-        } else {
-            texture = new Texture("BlackPawn.png");
-        }
         isPawn = true;
         points = 10;
     }
@@ -94,6 +89,15 @@ public class Pawn extends Chesspieces {
                     }
                 }
             }
+        }
+    }
+
+    @Override
+    public void loadTextures() {
+        if (white) {
+            texture = new Texture("WhitePawn.png");
+        } else {
+            texture = new Texture("BlackPawn.png");
         }
     }
 

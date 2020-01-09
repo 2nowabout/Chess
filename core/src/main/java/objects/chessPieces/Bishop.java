@@ -12,11 +12,6 @@ public class Bishop extends Chesspieces {
 
     public Bishop(boolean white, int x, int y) {
         super(white, x, y);
-        if (white) {
-            texture = new Texture("WhiteBishop.png");
-        } else {
-            texture = new Texture("BlackBishop.png");
-        }
         points = 30;
     }
 
@@ -72,6 +67,15 @@ public class Bishop extends Chesspieces {
             }
         }
         possibleMoves = actuallypossible;
+    }
+
+    @Override
+    public void loadTextures() {
+        if (white) {
+            texture = new Texture("WhiteBishop.png");
+        } else {
+            texture = new Texture("BlackBishop.png");
+        }
     }
 
     private ArrayList<Position> checkTile(iTile tile, ArrayList<Position> actuallypossiblebegin, int newx, int newy) {

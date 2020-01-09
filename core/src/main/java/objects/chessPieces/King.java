@@ -12,12 +12,7 @@ public class King extends Chesspieces {
     private boolean checked = false;
 
     public King(boolean white, int x, int y) {
-        super(white, x, y);
-        if (white) {
-            texture = new Texture("WhiteKing.png");
-        } else {
-            texture = new Texture("BlackKing.png");
-        }
+        super(white, x, y, new ArrayList<ArrayList<Integer>>());
         isKing = true;
         points = 900;
     }
@@ -42,6 +37,15 @@ public class King extends Chesspieces {
         possibleMoves.add(pos);
 
         possibleMoves.removeAll(notPossibleMoves(tiles));
+    }
+
+    @Override
+    public void loadTextures() {
+        if (white) {
+            texture = new Texture("WhiteKing.png");
+        } else {
+            texture = new Texture("BlackKing.png");
+        }
     }
 
     public void checkChecked(ArrayList<iTile> tiles)

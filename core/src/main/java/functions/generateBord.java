@@ -28,10 +28,15 @@ public class generateBord implements iGenerateBord {
         for (int y = 0; y < 8; y++) {
             for (int x = 0; x < 8; x++) {
                 if (whiteTile) {
-                    bord.add(new Tile(xPos, yPos, x, y, whiteTexture));
+                    iTile tile = new Tile(xPos, yPos, x, y);
+                    tile.setTextures(whiteTexture);
+                    bord.add(tile);
+
                     whiteTile = false;
                 } else {
-                    bord.add(new Tile(xPos, yPos, x, y, blackTexture));
+                    iTile tile = new Tile(xPos, yPos, x, y);
+                    tile.setTextures(blackTexture);
+                    bord.add(tile);
                     whiteTile = true;
                 }
                 if (xPos >= 1260) {
@@ -48,6 +53,12 @@ public class generateBord implements iGenerateBord {
             }
         }
         placeChestPieces();
+        for (iTile tile: bord) {
+            if(tile.hasChesspiece())
+            {
+                tile.getChesspieces().loadTextures();
+            }
+        }
         return bord;
     }
 

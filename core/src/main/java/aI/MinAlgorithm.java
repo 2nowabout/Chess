@@ -9,6 +9,7 @@ import java.util.List;
 
 public class MinAlgorithm implements iMinMaxAlgorithm {
     private List<List<iTile>> allBorden;
+    private List<Moves> acceptedmoves;
     private List<Moves> moves;
     private BotGetChesspieces getChesspieces;
     private allMovesCalculator allMovesCalculator;
@@ -26,20 +27,22 @@ public class MinAlgorithm implements iMinMaxAlgorithm {
     {
         allBorden = new ArrayList<>();
         moves = new ArrayList<>();
-        List<Moves> allmoves;
         for (List<iTile> lists : borden) {
+            acceptedmoves = new ArrayList<>();
             List<Chesspieces> enemys = getChesspieces.getEnemyChesspieces(lists);
-            allmoves = allMovesCalculator.calcAllMoves(enemys, lists);
+            List<Moves> allmoves = allMovesCalculator.calcAllMoves(enemys, lists);
 
             double average = averageCalculator.calculateAverage(allmoves);
             for (Moves move : allmoves) {
                 if (move.getPoints() <= average) {
-                    moves.add(move);
+                    acceptedmoves.add(move);
                 }
             }
-            for (Moves move : moves) {
+            for (Moves move : acceptedmoves) {
                 allBorden.add(makeFields.doMoveAndMakeField(lists, move));
             }
+            System.out.println(allBorden.size());
+            moves.addAll(acceptedmoves);
         }
 
     }

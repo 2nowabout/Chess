@@ -16,33 +16,26 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 
 public class Bot implements iBot {
-    private ArrayList<iTile> bord;
+/*  private ArrayList<iTile> bord;
     private List<Chesspieces> enemyChesspieces;
     private List<Chesspieces> botChesspieces;
     private List<Position> possibleEnemyPositions;
     private List<Position> possibleAllyPositions;
-    private bestMoveCalculator calculator = new bestMoveCalculator();
-    private MinMaxAlgorithm algorithm;
     allMovesCalculator allmovescalc = new allMovesCalculator();
+    private bestMoveCalculator calculator = new bestMoveCalculator();*/
+    private MinMaxAlgorithm algorithm;
     ThreadPoolExecutor pool;
 
     public Bot(ArrayList<iTile> tiles, int depth, SinglePlayerGameState single)
     {
-        bord = tiles;
         algorithm = new MinMaxAlgorithm(depth, single);
         pool = (ThreadPoolExecutor) Executors.newFixedThreadPool(1);
     }
 
     public void updateBord(ArrayList<iTile> tiles)
     {
-        ArrayList<iTile> botBord = new ArrayList<>();
-        for (iTile tile: tiles) {
-            iTile toAddTile = new Tile(0,0, tile.getX(), tile.getY(), "WhiteTile.png");
-            toAddTile.setChesspieces(tile.getChesspieces());
-            botBord.add(toAddTile);
-        }
+        ArrayList<iTile> botBord = BotMakeFakeBordCopy.generateFakeBord(tiles);
         System.out.println(botBord.size());
-        bord = botBord;
         algorithm.updateBord(botBord);
     }
 

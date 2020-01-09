@@ -37,6 +37,9 @@ public class MinMaxAlgorithm implements Callable {
     public Object call() {
         allmoves = new ArrayList<>();
         borden = new ArrayList<>();
+        for (iTile tile: bord) {
+            tile.removeTextures();
+        }
         borden.add(bord);
         System.out.println("start algo");
         for(int i = 0; i < depth; i++)
@@ -44,12 +47,17 @@ public class MinMaxAlgorithm implements Callable {
             max.algorithm(borden);
             allmoves.add(max.getMoves());
             System.out.println("max algo Done");
+            System.out.println(max.getAllBorden().size());
             min.algorithm(max.getAllBorden());
+            System.out.println(min.getAllBorden().size());
             borden = min.getAllBorden();
             allmoves.add(min.getMoves());
             System.out.println("one depth done");
         }
         System.out.println("completed algo");
+        for (Moves move: allmoves.get(0)) {
+
+        }
         single.switchTurn();
         return null; //TODO get best move in right order and return next move bot has too do
     }

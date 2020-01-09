@@ -29,15 +29,11 @@ public class Tile implements iTile {
     private Chesspieces chesspieces;
     private Character[] vertical = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'};
 
-    public Tile(int renderX, int renderY, int x, int y, String texture) {
-        possibleTexture = new Texture("PossibleTile.png");
-        kingChecked = new Texture("kingChecked.png");
-        font = new BitmapFont();
+    public Tile(int renderX, int renderY, int x, int y) {
         this.renderX = renderX;
         this.renderY = renderY;
         this.x = x;
         this.y = y;
-        this.texture = new Texture(texture);
         postiontext = vertical[y].toString() + (x + 1);
     }
 
@@ -99,4 +95,17 @@ public class Tile implements iTile {
     public int getX() { return x; }
     public int getY() { return y; }
     public Rectangle getRectangle() { return rectangle; }
+    public void setTextures(String texture)
+    {
+        possibleTexture = new Texture("PossibleTile.png");
+        this.texture = new Texture(texture);
+        kingChecked = new Texture("kingChecked.png");
+        font = new BitmapFont();
+    }
+    public void removeTextures()
+    {
+        possibleTexture = null;
+        texture = null;
+        kingChecked = null;
+    }
 }

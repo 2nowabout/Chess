@@ -10,11 +10,6 @@ public class Knight extends Chesspieces {
 
     public Knight(boolean white, int x, int y) {
         super(white, x, y);
-        if (white) {
-            texture = new Texture("WhiteKnight.png");
-        } else {
-            texture = new Texture("BlackKnight.png");
-        }
         points = 30;
     }
 
@@ -37,6 +32,15 @@ public class Knight extends Chesspieces {
         pos = new Position(x-1, y-2);
         possibleMoves.add(pos);
         possibleMoves.removeAll(notPossibleMoves(tiles));
+    }
+
+    @Override
+    public void loadTextures() {
+        if (white) {
+            texture = new Texture("WhiteKnight.png");
+        } else {
+            texture = new Texture("BlackKnight.png");
+        }
     }
 
     private ArrayList<Position> notPossibleMoves(ArrayList<iTile> tiles) {
