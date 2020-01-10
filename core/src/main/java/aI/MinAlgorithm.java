@@ -8,30 +8,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MinAlgorithm implements iMinMaxAlgorithm {
-    private List<List<iTile>> allBorden;
+    private List<BordAndMoves> allBorden;
     private List<Moves> acceptedmoves;
     private List<Moves> moves;
     private BotGetChesspieces getChesspieces;
     private allMovesCalculator allMovesCalculator;
     private MakeFields makeFields;
     private AverageMoveCalculator averageCalculator;
+    private AddIDOnMoves addIDOnMoves;
 
     public MinAlgorithm() {
         getChesspieces = new BotGetChesspieces();
         allMovesCalculator = new allMovesCalculator();
         makeFields = new MakeFields();
         averageCalculator = new AverageMoveCalculator();
+        addIDOnMoves = new AddIDOnMoves();
     }
 
-    public void algorithm(List<List<iTile>> borden)
+    public void algorithm(List<BordAndMoves> borden, boolean first)
     {
         allBorden = new ArrayList<>();
         moves = new ArrayList<>();
-        for (List<iTile> lists : borden) {
+        for (BordAndMoves lists : borden) {
             acceptedmoves = new ArrayList<>();
-            List<Chesspieces> enemys = getChesspieces.getEnemyChesspieces(lists);
-            List<Moves> allmoves = allMovesCalculator.calcAllMoves(enemys, lists);
-
+            List<Chesspieces> enemys = getChesspieces.getEnemyChesspieces(lists.getBord());
+            List<Moves> allmoves = allMovesCalculator.calcAllMoves(enemys, lists.getBord());
+            allmoves = addIDOnMoves.AddIDToMoves(allmoves, first, lists);
             double average = averageCalculator.calculateAverage(allmoves);
             for (Moves move : allmoves) {
                 if (move.getPoints() <= average) {
@@ -39,7 +41,8 @@ public class MinAlgorithm implements iMinMaxAlgorithm {
                 }
             }
             for (Moves move : acceptedmoves) {
-                allBorden.add(makeFields.doMoveAndMakeField(lists, move));
+                BordAndMoves toAdd = new BordAndMoves(makeFields.doMoveAndMakeField(lists.getBord(), move), move);
+                allBorden.add(toAdd);
             }
             System.out.println(allBorden.size());
             moves.addAll(acceptedmoves);
@@ -47,6 +50,6 @@ public class MinAlgorithm implements iMinMaxAlgorithm {
 
     }
 
-    public List<List<iTile>> getAllBorden() { return allBorden; }
+    public List<BordAndMoves> getAllBorden() { return allBorden; }
     public List<Moves> getMoves() { return moves; }
 }

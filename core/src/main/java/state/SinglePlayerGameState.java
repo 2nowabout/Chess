@@ -54,6 +54,10 @@ public class SinglePlayerGameState extends State {
     @Override
     protected void handleInput() {
         checks.closeApp();
+        if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {  //exit game if escape is pressed
+            bot.shutdown();
+            Gdx.app.exit();
+        }
         Rectangle mouseRectangle = new Rectangle(Gdx.input.getX(), Gdx.input.getY(), 1, 1); //get mouse position
         mouseRectangle.y = Gdx.graphics.getHeight() - mouseRectangle.y; // invert y, this is already inverted in the game
         settingsOpen = checks.openSettingsCheck(settingsButton, mouseRectangle, settingsOpen);

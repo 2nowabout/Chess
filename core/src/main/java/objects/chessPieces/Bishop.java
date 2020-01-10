@@ -13,7 +13,11 @@ public class Bishop extends Chesspieces {
     public Bishop(boolean white, int x, int y) {
         super(white, x, y);
         fieldPoints = generator.BishopPoints();
-        points = 30;
+        if (white) {
+            points = 30;
+        } else {
+            points = -30;
+        }
     }
 
     @Override
@@ -60,9 +64,7 @@ public class Bishop extends Chesspieces {
                 check3 = false;
                 teamhit = false;
                 firstenemy = true;
-            }
-            else
-            {
+            } else {
                 teamhit = false;
                 firstenemy = true;
             }

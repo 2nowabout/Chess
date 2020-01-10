@@ -14,7 +14,11 @@ public class Queen extends Chesspieces {
     public Queen(boolean white, int x, int y) {
         super(white, x, y);
         fieldPoints = generator.QueenPoints();
-        points = 90;
+        if (white) {
+            points = 90;
+        } else {
+            points = -90;
+        }
     }
 
     @Override

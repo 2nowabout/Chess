@@ -6,7 +6,7 @@ import saveLibraries.Moves;
 import java.util.List;
 
 public interface iMinMaxAlgorithm {
-    void algorithm(List<List<iTile>> borden);
-    List<List<iTile>> getAllBorden();
+    void algorithm(List<BordAndMoves> borden, boolean first);
+    List<BordAndMoves> getAllBorden();
     List<Moves> getMoves();
 }

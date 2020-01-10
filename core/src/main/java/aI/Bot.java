@@ -13,10 +13,13 @@ import java.util.List;
 import java.util.Random;
 
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.ThreadPoolExecutor;
 
-public class Bot implements iBot {
-/*  private ArrayList<iTile> bord;
+public class Bot implements iBot, Runnable {
+    private ArrayList<iTile> bord;
+    private SinglePlayerGameState single;
+/*
     private List<Chesspieces> enemyChesspieces;
     private List<Chesspieces> botChesspieces;
     private List<Position> possibleEnemyPositions;
@@ -28,25 +31,55 @@ public class Bot implements iBot {
 
     public Bot(ArrayList<iTile> tiles, int depth, SinglePlayerGameState single)
     {
+        this.single = single;
         algorithm = new MinMaxAlgorithm(depth, single);
         pool = (ThreadPoolExecutor) Executors.newFixedThreadPool(1);
     }
 
     public void updateBord(ArrayList<iTile> tiles)
     {
+        bord = tiles;
         ArrayList<iTile> botBord = BotMakeFakeBordCopy.generateFakeBord(tiles);
         System.out.println(botBord.size());
         algorithm.updateBord(botBord);
     }
 
-    private void minMaxAlgorithm()
+    @Override
+    public void run() {
+        Future result = pool.submit(algorithm);
+        try {
+            Moves move = (Moves) result.get();
+            iTile oldTile = null;
+            iTile newTile = null;
+            for (iTile tile : bord)
+            {
+                if (tile.getX() == move.getChesspieces().getX() && tile.getY() == move.getChesspieces().getY()) {
+                    oldTile = tile;
+                }
+                else if (tile.getX() == move.getTile().getX() && tile.getY() == move.getTile().getY()) {
+                    newTile = tile;
+                }
+            }
+            newTile.setChesspieces(oldTile.getChesspieces());
+            oldTile.removeChestpiece();
+            single.switchTurn();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public void shutdown()
     {
-        Object i = pool.submit(algorithm);
+        pool.shutdown();
     }
 
     public void act()
     {
-        minMaxAlgorithm();
+        Thread thread1 = new Thread(this);
+        thread1.run();
+
         /*enemyChesspieces = new ArrayList<>();
         botChesspieces = new ArrayList<>();
         possibleAllyPositions = new ArrayList<>();

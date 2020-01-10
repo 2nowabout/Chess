@@ -1,9 +1,6 @@
 package aI;
 
-import com.badlogic.gdx.utils.Timer;
 import interfaces.iTile;
-import objects.Tile;
-import objects.chessPieces.Pawn;
 import saveLibraries.Moves;
 import state.SinglePlayerGameState;
 
@@ -16,49 +13,63 @@ public class MinMaxAlgorithm implements Callable {
     private iMinMaxAlgorithm max;
     private int depth;
     private List<iTile> bord;
-    private List<List<Moves>> allmoves;
-    private List<List<iTile>> borden;
+    private List<BordAndMoves> borden;
+    private List<BordAndMoves> finalMoves;
+    private List<Moves> firstMoves;
     private SinglePlayerGameState single;
 
-    public MinMaxAlgorithm(int depth, SinglePlayerGameState single)
-    {
+    public MinMaxAlgorithm(int depth, SinglePlayerGameState single) {
         min = new MinAlgorithm();
         max = new MaxAlgorithm();
         this.single = single;
         this.depth = depth;
     }
 
-    public void updateBord(List<iTile> bord)
-    {
+    public void updateBord(List<iTile> bord) {
         this.bord = bord;
     }
 
     @Override
     public Object call() {
-        allmoves = new ArrayList<>();
         borden = new ArrayList<>();
-        for (iTile tile: bord) {
+        boolean first = true;
+        for (iTile tile : bord) {
             tile.removeTextures();
         }
-        borden.add(bord);
+        BordAndMoves firstbord = new BordAndMoves(bord, null);
+        borden.add(firstbord);
         System.out.println("start algo");
-        for(int i = 0; i < depth; i++)
-        {
-            max.algorithm(borden);
-            allmoves.add(max.getMoves());
+        for (int i = 0; i < depth; i++) {
+            max.algorithm(borden, first);
             System.out.println("max algo Done");
+            if (first) {
+                firstMoves = max.getMoves();
+            }
+            first = false;
             System.out.println(max.getAllBorden().size());
-            min.algorithm(max.getAllBorden());
+            min.algorithm(max.getAllBorden(), first);
             System.out.println(min.getAllBorden().size());
             borden = min.getAllBorden();
-            allmoves.add(min.getMoves());
             System.out.println("one depth done");
         }
         System.out.println("completed algo");
-        for (Moves move: allmoves.get(0)) {
-
+        BordAndMoves bestMove = null;
+        Moves toReturn = null;
+        double bestScore = -999;
+        for (BordAndMoves bordAndMoves : borden) { //min is done last so we search for the least minimal one
+            if (bordAndMoves.getMove().getPoints() > bestScore) {
+                bestScore = bordAndMoves.getMove().getPoints();
+                bestMove = bordAndMoves;
+            }
         }
-        single.switchTurn();
-        return null; //TODO get best move in right order and return next move bot has too do
+        for (Moves move : firstMoves) {
+            if (move.getID() == bestMove.getMove().getID())
+            {
+                 toReturn = move;
+            }
+        }
+
+        return toReturn;
+        //TODO get best move in right order and return next move bot has too do
     }
 }

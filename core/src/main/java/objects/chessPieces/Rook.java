@@ -14,7 +14,11 @@ public class Rook extends Chesspieces {
     public Rook(boolean white, int x, int y) {
         super(white, x, y);
         fieldPoints = generator.RookPoints();
-        points = 50;
+        if (white) {
+            points = 50;
+        } else {
+            points = -50;
+        }
     }
 
     @Override
@@ -61,9 +65,7 @@ public class Rook extends Chesspieces {
                 check3 = false;
                 teamhit = false;
                 firstenemy = true;
-            }
-            else
-            {
+            } else {
                 teamhit = false;
                 firstenemy = true;
             }

@@ -11,26 +11,30 @@ public class Knight extends Chesspieces {
     public Knight(boolean white, int x, int y) {
         super(white, x, y);
         fieldPoints = generator.KnightPoints();
-        points = 30;
+        if (white) {
+            points = 30;
+        } else {
+            points = -30;
+        }
     }
 
     @Override
     public void calculateMoves(ArrayList<iTile> tiles) {
-        Position pos = new Position(x+2, y+1);
+        Position pos = new Position(x + 2, y + 1);
         possibleMoves.add(pos);
-        pos = new Position(x+2, y-1);
+        pos = new Position(x + 2, y - 1);
         possibleMoves.add(pos);
-        pos = new Position(x-2, y+1);
+        pos = new Position(x - 2, y + 1);
         possibleMoves.add(pos);
-        pos = new Position(x-2, y-1);
+        pos = new Position(x - 2, y - 1);
         possibleMoves.add(pos);
-        pos = new Position(x-1,y+2);
+        pos = new Position(x - 1, y + 2);
         possibleMoves.add(pos);
-        pos = new Position(x+1, y+2);
+        pos = new Position(x + 1, y + 2);
         possibleMoves.add(pos);
-        pos = new Position(x+1, y-2);
+        pos = new Position(x + 1, y - 2);
         possibleMoves.add(pos);
-        pos = new Position(x-1, y-2);
+        pos = new Position(x - 1, y - 2);
         possibleMoves.add(pos);
         possibleMoves.removeAll(notPossibleMoves(tiles));
     }
@@ -47,8 +51,7 @@ public class Knight extends Chesspieces {
     private ArrayList<Position> notPossibleMoves(ArrayList<iTile> tiles) {
         ArrayList<Position> notPossiblePositions = new ArrayList<>();
         for (Position pos : possibleMoves) {
-            if(pos.getX() < 0 || pos.getX() > 8 || pos.getY() < 0 || pos.getY() > 8)
-            {
+            if (pos.getX() < 0 || pos.getX() > 8 || pos.getY() < 0 || pos.getY() > 8) {
                 notPossiblePositions.add(pos);
             }
             for (iTile tile : tiles) {

@@ -14,7 +14,11 @@ public class Pawn extends Chesspieces {
         super(white, x, y);
         fieldPoints = generator.PawnPoints();
         isPawn = true;
-        points = 10;
+        if (white) {
+            points = 10;
+        } else {
+            points = -10;
+        }
     }
 
     @Override
@@ -22,7 +26,7 @@ public class Pawn extends Chesspieces {
         boolean otherhit = false;
         for (int i = 1; i < 3; i++) {
             for (iTile tile : tiles) {
-                if(firstmove) {
+                if (firstmove) {
                     if (!white) {
                         if (tile.getX() == x && tile.getY() == y + i) {
                             if (!tile.hasChesspiece() && !otherhit) {
@@ -42,23 +46,18 @@ public class Pawn extends Chesspieces {
                             }
                         }
                     }
-                }
-                else
-                {
-                    if(!white)
-                    {
+                } else {
+                    if (!white) {
                         if (tile.getX() == x && tile.getY() == y + 1) {
                             if (!tile.hasChesspiece() && !otherhit) {
-                                Position position = new Position(x,  y+1);
+                                Position position = new Position(x, y + 1);
                                 possibleMoves.add(position);
                             }
                         }
-                    }
-                    else
-                    {
+                    } else {
                         if (tile.getX() == x && tile.getY() == y - 1) {
                             if (!tile.hasChesspiece() && !otherhit) {
-                                Position position = new Position(x,  y-1);
+                                Position position = new Position(x, y - 1);
                                 possibleMoves.add(position);
                             }
                         }
@@ -67,24 +66,24 @@ public class Pawn extends Chesspieces {
                 if (!white) {
                     if (tile.getX() == x + 1 && tile.getY() == y + 1) {
                         if (tile.hasChesspiece() && tile.getChesspieces().white) {
-                            Position position = new Position(x + 1, y+1);
+                            Position position = new Position(x + 1, y + 1);
                             possibleMoves.add(position);
                         }
                     } else if (tile.getX() == x - 1 && tile.getY() == y + 1) {
                         if (tile.hasChesspiece() && tile.getChesspieces().white) {
-                            Position position = new Position(x-1, y+1);
+                            Position position = new Position(x - 1, y + 1);
                             possibleMoves.add(position);
                         }
                     }
                 } else {
                     if (tile.getX() == x + 1 && tile.getY() == y - 1) {
                         if (tile.hasChesspiece() && !tile.getChesspieces().white) {
-                            Position position = new Position(x+1, y-1);
+                            Position position = new Position(x + 1, y - 1);
                             possibleMoves.add(position);
                         }
                     } else if (tile.getX() == x - 1 && tile.getY() == y - 1) {
                         if (tile.hasChesspiece() && !tile.getChesspieces().white) {
-                            Position position = new Position(x-1, y-1);
+                            Position position = new Position(x - 1, y - 1);
                             possibleMoves.add(position);
                         }
                     }
@@ -102,6 +101,8 @@ public class Pawn extends Chesspieces {
         }
     }
 
-    public void setFirstmove(boolean firstmove) { this.firstmove = firstmove; }
+    public void setFirstmove(boolean firstmove) {
+        this.firstmove = firstmove;
+    }
 }
 
