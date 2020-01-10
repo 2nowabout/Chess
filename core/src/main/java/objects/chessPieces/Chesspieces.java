@@ -1,13 +1,13 @@
 package objects.chessPieces;
 
-import com.Chess;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import interfaces.iTile;
+import objects.ChessPiecesFunctions.ChessPieceClone;
+import objects.ChessPiecesFunctions.FieldPointsGenerator;
 import saveLibraries.Position;
 
 import java.awt.*;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 public abstract class Chesspieces {
@@ -28,7 +28,11 @@ public abstract class Chesspieces {
 
     protected ArrayList<Position> possibleMoves;
 
-    public Chesspieces(boolean white, int x, int y, ArrayList<ArrayList<Integer>> field)
+    protected ArrayList<ArrayList<Double>> fieldPoints;
+
+    protected FieldPointsGenerator generator;
+
+    public Chesspieces(boolean white, int x, int y)
     {
         this.field = field;
         this.white = white;
@@ -37,6 +41,7 @@ public abstract class Chesspieces {
         isKing = false;
         isPawn = false;
         possibleMoves = new ArrayList<>();
+        generator = new FieldPointsGenerator();
     }
 
     public Chesspieces clone(Chesspieces piece){
@@ -67,4 +72,5 @@ public abstract class Chesspieces {
     public int getPoints() { return points; }
     public int getX() { return x; }
     public int getY() { return y; }
+    public ArrayList<ArrayList<Double>> getFieldPoints() { return fieldPoints; }
 }

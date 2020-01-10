@@ -12,6 +12,7 @@ public class Bishop extends Chesspieces {
 
     public Bishop(boolean white, int x, int y) {
         super(white, x, y);
+        fieldPoints = generator.BishopPoints();
         points = 30;
     }
 

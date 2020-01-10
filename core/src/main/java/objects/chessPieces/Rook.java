@@ -13,6 +13,7 @@ public class Rook extends Chesspieces {
 
     public Rook(boolean white, int x, int y) {
         super(white, x, y);
+        fieldPoints = generator.RookPoints();
         points = 50;
     }
 

@@ -12,6 +12,7 @@ public class Pawn extends Chesspieces {
 
     public Pawn(boolean white, int x, int y) {
         super(white, x, y);
+        fieldPoints = generator.PawnPoints();
         isPawn = true;
         points = 10;
     }

@@ -12,7 +12,8 @@ public class King extends Chesspieces {
     private boolean checked = false;
 
     public King(boolean white, int x, int y) {
-        super(white, x, y, new ArrayList<ArrayList<Integer>>());
+        super(white, x, y);
+        fieldPoints = generator.KingPoints();
         isKing = true;
         points = 900;
     }

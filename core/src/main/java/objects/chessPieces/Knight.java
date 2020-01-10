@@ -10,6 +10,7 @@ public class Knight extends Chesspieces {
 
     public Knight(boolean white, int x, int y) {
         super(white, x, y);
+        fieldPoints = generator.KnightPoints();
         points = 30;
     }
 

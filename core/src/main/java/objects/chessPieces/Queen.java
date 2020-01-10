@@ -13,6 +13,7 @@ public class Queen extends Chesspieces {
 
     public Queen(boolean white, int x, int y) {
         super(white, x, y);
+        fieldPoints = generator.QueenPoints();
         points = 90;
     }
 

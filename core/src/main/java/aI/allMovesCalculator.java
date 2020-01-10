@@ -21,15 +21,20 @@ public class allMovesCalculator {
             if(!chessPieceMoves.isEmpty()) {
                 for (Position pos : chessPieceMoves) {
                     for (iTile tile : bord) {
+                        Moves toAdd = null;
                         if(tile.hasChesspiece())
                         {
                             if(tile.getX() == pos.getX() && tile.getY() == pos.getY())
                             {
-                                CheckMoves.add(new Moves(tile.getChesspieces().getPoints(), tile, chesspiece));
+                                toAdd = new Moves(tile.getChesspieces().getPoints(), tile, chesspiece);
+                                toAdd.addPoints(chesspiece.getFieldPoints().get(tile.getY()).get(tile.getX()));
+                                CheckMoves.add(toAdd);
                             }
                         }
                         else if (!tile.hasChesspiece() && tile.getX() == pos.getX() && tile.getY() == pos.getY()) {
-                            CheckMoves.add(new Moves(0, tile, chesspiece));
+                            toAdd = new Moves(0, tile, chesspiece);
+                            toAdd.addPoints(chesspiece.getFieldPoints().get(tile.getY()).get(tile.getX()));
+                            CheckMoves.add(toAdd);
                         }
                     }
                 }

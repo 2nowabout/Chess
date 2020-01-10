@@ -1,6 +1,7 @@
-package objects.chessPieces;
+package objects.ChessPiecesFunctions;
 
 import com.rits.cloning.Cloner;
+import objects.chessPieces.Chesspieces;
 
 import java.util.Set;
 

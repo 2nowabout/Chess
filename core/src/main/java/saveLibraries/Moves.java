@@ -4,7 +4,7 @@ import interfaces.iTile;
 import objects.chessPieces.Chesspieces;
 
 public class Moves {
-    private int points;
+    private double points;
     private iTile tile;
     private Chesspieces chesspieces;
 
@@ -15,7 +15,8 @@ public class Moves {
         this.tile = tile;
     }
 
-    public int getPoints() { return points; }
+    public double getPoints() { return points; }
     public iTile getTile() { return tile; }
     public Chesspieces getChesspieces() { return chesspieces; }
+    public void addPoints(double value) { points = points + value; }
 }
