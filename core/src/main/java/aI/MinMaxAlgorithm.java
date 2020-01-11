@@ -40,17 +40,23 @@ public class MinMaxAlgorithm implements Callable {
         borden.add(firstbord);
         System.out.println("start algo");
         for (int i = 0; i < depth; i++) {
+            long startmax = System.nanoTime();
             max.algorithm(borden, first);
+            long endmax = System.nanoTime();
             System.out.println("max algo Done");
+            checkAlgoTime(startmax, endmax);
             if (first) {
                 firstMoves = max.getMoves();
             }
             first = false;
             System.out.println(max.getAllBorden().size());
+            long beginmin = System.nanoTime();
             min.algorithm(max.getAllBorden(), first);
+            long endmin = System.nanoTime();
             System.out.println(min.getAllBorden().size());
             borden = min.getAllBorden();
             System.out.println("one depth done");
+            checkAlgoTime(beginmin, endmin);
         }
         System.out.println("completed algo");
         BordAndMoves bestMove = null;
@@ -71,5 +77,11 @@ public class MinMaxAlgorithm implements Callable {
 
         return toReturn;
         //TODO get best move in right order and return next move bot has too do
+    }
+
+    private void checkAlgoTime(long start, long end)
+    {
+        long time = end - start;
+        System.out.println("time: " + time);
     }
 }

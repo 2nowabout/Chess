@@ -35,19 +35,17 @@ public class MinAlgorithm implements iMinMaxAlgorithm {
             List<Moves> allmoves = allMovesCalculator.calcAllMoves(enemys, lists.getBord());
             allmoves = addIDOnMoves.AddIDToMoves(allmoves, first, lists);
             double average = averageCalculator.calculateAverage(allmoves);
-            for (Moves move : allmoves) {
+/*            for (Moves move : allmoves) {
                 if (move.getPoints() <= average) {
                     acceptedmoves.add(move);
                 }
-            }
-            for (Moves move : acceptedmoves) {
+            }*/
+            for (Moves move : allmoves) {
                 BordAndMoves toAdd = new BordAndMoves(makeFields.doMoveAndMakeField(lists.getBord(), move), move);
                 allBorden.add(toAdd);
             }
-            System.out.println(allBorden.size());
             moves.addAll(acceptedmoves);
         }
-
     }
 
     public List<BordAndMoves> getAllBorden() { return allBorden; }

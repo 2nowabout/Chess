@@ -27,6 +27,7 @@ public class MaxAlgorithm implements iMinMaxAlgorithm {
     }
 
     public void algorithm(List<BordAndMoves> borden, boolean first) {
+
         allBorden = new ArrayList<>();
         moves = new ArrayList<>();
         for (BordAndMoves lists : borden) {
@@ -43,11 +44,10 @@ public class MaxAlgorithm implements iMinMaxAlgorithm {
                     moves.add(forMoves);
                 }
             }
-            for (Moves move : acceptedmoves) {
+            for (Moves move : allmoves) {
                 BordAndMoves toAdd = new BordAndMoves(makeFields.doMoveAndMakeField(lists.getBord(), move), move);
                 allBorden.add(toAdd);
             }
-            System.out.println(allBorden.size());
         }
     }
 
