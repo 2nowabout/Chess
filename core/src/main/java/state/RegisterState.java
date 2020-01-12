@@ -33,7 +33,7 @@ public class RegisterState extends State {
         Gdx.input.setInputProcessor(stage);
         restCommunicator = new RestCommunicator();
         createCanvas();
-        background = new Texture("sea.jpg");
+        background = new Texture("Background1.jpg");
     }
 
     private void createCanvas(){
