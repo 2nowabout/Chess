@@ -47,6 +47,20 @@ public class ChessLogin {
         return false;
     }
 
+    public boolean removeUser(String userName)
+    {
+        String procedure = "DELETE FROM `login` WHERE userName = ?";
+        Map<Integer, Object> map = new HashMap<Integer, Object>();
+        map.put(1, userName);
+        try{
+            dbClass.executeNonQuery(procedure, map);
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     public List<AccountDTO> getAll(){
         String procedure = "SELECT * FROM [dbo].[User]";
         List<AccountDTO> accounts = new ArrayList<>();

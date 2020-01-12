@@ -44,7 +44,7 @@ public class MaxAlgorithm implements iMinMaxAlgorithm {
                     moves.add(forMoves);
                 }
             }
-            for (Moves move : allmoves) {
+            for (Moves move : acceptedmoves) {
                 BordAndMoves toAdd = new BordAndMoves(makeFields.doMoveAndMakeField(lists.getBord(), move), move);
                 allBorden.add(toAdd);
             }

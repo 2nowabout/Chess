@@ -11,10 +11,10 @@ import javax.ws.rs.core.Response;
 @Path("/auth")
 public class ChessRESTservice {
 
-    private ChessLogin alienWarsLogin;
+    private ChessLogin chessLogin;
 
     public ChessRESTservice() {
-        alienWarsLogin = new ChessLogin();
+        chessLogin = new ChessLogin();
     }
 
     @POST
@@ -22,7 +22,7 @@ public class ChessRESTservice {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response login(AccountDTO accountDTO){
-        if(alienWarsLogin.login(accountDTO.getUsername(), accountDTO.getPassword())){
+        if(chessLogin.login(accountDTO.getUsername(), accountDTO.getPassword())){
             return Response.ok(RestResponseHelper.getSuccesResponse(), MediaType.APPLICATION_JSON).build();
         }
         return Response.status(400).entity(RestResponseHelper.getErrorResponseString()).build();
@@ -33,7 +33,7 @@ public class ChessRESTservice {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response register(AccountDTO accountDTO){
-        if(alienWarsLogin.register(accountDTO.getUsername(),accountDTO.getPassword(), accountDTO.getEmail())){
+        if(chessLogin.register(accountDTO.getUsername(),accountDTO.getPassword(), accountDTO.getEmail())){
             return Response.ok(RestResponseHelper.getSuccesResponse(), MediaType.APPLICATION_JSON).build();
         }else
             return Response.status(500).entity(RestResponseHelper.getErrorResponseString()).build();
