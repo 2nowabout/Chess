@@ -17,7 +17,7 @@ public class ChessLogin {
     public boolean register(String userName, String password, String email){
         try{
             String hashedPassword = HashingClass.hashPassword(password);
-            Map<Integer, Object> map = new HashMap<Integer, Object>();
+            Map<Integer, Object> map = new HashMap<>();
             map.put(1, userName);
             map.put(2, hashedPassword);
             map.put(3, email);
@@ -34,7 +34,7 @@ public class ChessLogin {
         String procedure = "SELECT userName, password FROM `login` WHERE userName = ?";
         if(userName.contains("@"))
             procedure = "SELECT email, password FROM `login` WHERE email = ?";
-        Map<Integer, Object> map = new HashMap<Integer, Object>();
+        Map<Integer, Object> map = new HashMap<>();
         map.put(1, userName);
         try{
             CachedRowSet cachedRowSet = dbClass.executeQuery(procedure, map);
@@ -50,7 +50,7 @@ public class ChessLogin {
     public boolean removeUser(String userName)
     {
         String procedure = "DELETE FROM `login` WHERE userName = ?";
-        Map<Integer, Object> map = new HashMap<Integer, Object>();
+        Map<Integer, Object> map = new HashMap<>();
         map.put(1, userName);
         try{
             dbClass.executeNonQuery(procedure, map);
@@ -64,7 +64,7 @@ public class ChessLogin {
     public List<AccountDTO> getAll(){
         String procedure = "SELECT * FROM [dbo].[User]";
         List<AccountDTO> accounts = new ArrayList<>();
-        Map<Integer, Object> map = new HashMap<Integer, Object>();
+        Map<Integer, Object> map = new HashMap<>();
         try{
             CachedRowSet cachedRowSet = dbClass.executeQuery(procedure, map);
             while (cachedRowSet.next()){
@@ -80,7 +80,6 @@ public class ChessLogin {
     }
 
     public boolean doesAccountExist() {
-        //TODO
         return false;
     }
 

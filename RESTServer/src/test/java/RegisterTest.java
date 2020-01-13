@@ -22,4 +22,15 @@ public class RegisterTest {
             e.printStackTrace();
         }
     }
+    @Test
+    public void registerUser()
+    {
+        register = new ChessLogin();
+        try {
+            assertTrue(register.register("2nowabout", "Tester123", "iamnotmediaperson@gmail.com"));
+            assertTrue(register.register("odin2001", "huts", "iamnotmediaperson@gmail.com"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

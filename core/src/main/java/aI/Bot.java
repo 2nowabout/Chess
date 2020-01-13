@@ -48,8 +48,8 @@ public class Bot implements iBot, Runnable {
     public void run() {
         Future result = pool.submit(algorithm);
         try {
-            Moves move = (Moves) result.get();
-            iTile oldTile = null;
+            /*Moves move = (Moves) result.get();*/
+            /*iTile oldTile = null;
             iTile newTile = null;
             for (iTile tile : bord)
             {
@@ -62,7 +62,7 @@ public class Bot implements iBot, Runnable {
             }
             newTile.setChesspieces(oldTile.getChesspieces());
             oldTile.removeChestpiece();
-            single.switchTurn();
+            single.switchTurn();*/
         }
         catch (Exception e)
         {

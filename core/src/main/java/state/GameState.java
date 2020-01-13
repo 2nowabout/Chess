@@ -28,6 +28,7 @@ public class GameState extends State {
     private boolean clickedOnChesspiece = false;
     private boolean settingsOpen;
     private boolean youAreWhite;
+    private boolean needToCheck;
 
     private iButtons settingsButton;
     private iGameChecks checks;
@@ -43,6 +44,7 @@ public class GameState extends State {
     public GameState(GameStateManager gsm, boolean firstToPlay, iJsonCreator messageCreator) {
         super(gsm);
         this.gsm = gsm;
+        needToCheck = false;
         winCheck = new checkWin();
         bord = new ArrayList<>();
         canMovePosition = new ArrayList<>();
@@ -88,6 +90,11 @@ public class GameState extends State {
             tile.setCanMoveHere(false);
             checks.checkTile(tile, canMovePosition, dt);
             settingsButton.update(dt);
+        }
+        if(needToCheck) {
+            checks.checkKings(gsm, bord);
+            checks.checkKingsdead(gsm, bord);
+            needToCheck = false;
         }
         handleInput();
         if (settingsOpen) {
@@ -157,8 +164,7 @@ public class GameState extends State {
                             canMovePosition = new ArrayList<>();
                             tileRemove.removeChestpiece();
                             MessageSender.broadcast(messageCreator.moveMessage(tileRemove, tile, youAreWhite));
-                            checks.checkKings(gsm, bord);
-                            checks.checkKingsdead(gsm, bord);
+                            needToCheck = true;
                             endTurn();
                         }
                     }
@@ -179,6 +185,7 @@ public class GameState extends State {
         }
         newTile.setChesspieces(oldTile.getChesspieces());
         oldTile.removeChestpiece();
+        needToCheck = true;
         turn = !turn;
     }
 

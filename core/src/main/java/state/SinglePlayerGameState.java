@@ -11,6 +11,7 @@ import functions.generateBord;
 import interfaces.*;
 import objects.Buttons;
 import objects.chessPieces.Pawn;
+import saveLibraries.Moves;
 import saveLibraries.Position;
 import java.awt.*;
 import java.util.ArrayList;
@@ -167,4 +168,20 @@ public class SinglePlayerGameState extends State {
         this.settingsOpen = settingsOpen;
     }
     public void switchTurn() { turn = !turn; }
+    public void enemyTurn(Moves move)
+    {
+        iTile oldTile = null;
+        iTile newTile = null;
+        for (iTile tile : bord)
+        {
+            if (tile.getX() == move.getChesspieces().getX() && tile.getY() == move.getChesspieces().getY()) {
+                oldTile = tile;
+            }
+            else if (tile.getX() == move.getTile().getX() && tile.getY() == move.getTile().getY()) {
+                newTile = tile;
+            }
+        }
+        newTile.setChesspieces(oldTile.getChesspieces());
+        oldTile.removeChestpiece();
+    }
 }

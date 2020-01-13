@@ -1,6 +1,7 @@
 package websockets.websocket;
 
 import websockets.messageCreator.jsonCreator;
+import websockets.messageSender.MessageSender;
 
 import java.net.URI;
 import javax.websocket.ContainerProvider;
@@ -8,9 +9,10 @@ import javax.websocket.Session;
 import javax.websocket.WebSocketContainer;
 
 public class Websocket {
-    private final static String uri = "ws://192.168.0.107:8096/Chess/";
+    private final static String uri = "ws://localhost:8097/Chess/";
     Session session;
     private jsonCreator jsonCreator;
+    private MessageSender sender;
     public Websocket(){
         try {
             WebSocketContainer container = ContainerProvider.getWebSocketContainer();
@@ -18,6 +20,8 @@ public class Websocket {
                 // Attempt Connect
                 session = container.connectToServer(WebsocketEndpoint.class, new URI(uri));
                 jsonCreator = new jsonCreator();
+                sender = new MessageSender(session);
+
             }
             catch (Exception e)
             {
