@@ -1,16 +1,14 @@
-package drawWin;
+package draw;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class DrawWins {
 
     public BitmapFont font;
-    public DrawWins()
+    public DrawWins(BitmapFont font)
     {
-        font = new BitmapFont();
-        font.getData().setScale(3, 3);
+        this.font = font;        font.getData().setScale(3, 3);
     }
     public void drawWin(SpriteBatch sb, boolean blackwin, boolean whitewin)
     {

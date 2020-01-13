@@ -13,12 +13,12 @@ public class Rook extends Chesspieces {
 
     public Rook(boolean white, int x, int y) {
         super(white, x, y);
+        fieldPoints = generator.RookPoints();
         if (white) {
-            texture = new Texture("WhiteRook.png");
+            points = 50;
         } else {
-            texture = new Texture("BlackRook.png");
+            points = -50;
         }
-        points = 50;
     }
 
     @Override
@@ -65,14 +65,21 @@ public class Rook extends Chesspieces {
                 check3 = false;
                 teamhit = false;
                 firstenemy = true;
-            }
-            else
-            {
+            } else {
                 teamhit = false;
                 firstenemy = true;
             }
         }
         possibleMoves = actuallypossible;
+    }
+
+    @Override
+    public void loadTextures() {
+        if (white) {
+            texture = new Texture("WhiteRook.png");
+        } else {
+            texture = new Texture("BlackRook.png");
+        }
     }
 
     private ArrayList<Position> checkTile(iTile tile, ArrayList<Position> actuallypossiblebegin, int newx, int newy) {

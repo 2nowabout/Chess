@@ -13,12 +13,12 @@ public class Queen extends Chesspieces {
 
     public Queen(boolean white, int x, int y) {
         super(white, x, y);
+        fieldPoints = generator.QueenPoints();
         if (white) {
-            texture = new Texture("WhiteQueen.png");
+            points = 90;
         } else {
-            texture = new Texture("BlackQueen.png");
+            points = -90;
         }
-        points = 90;
     }
 
     @Override
@@ -47,6 +47,15 @@ public class Queen extends Chesspieces {
         }
 
         possibleMoves = actuallypossible;
+    }
+
+    @Override
+    public void loadTextures() {
+        if (white) {
+            texture = new Texture("WhiteQueen.png");
+        } else {
+            texture = new Texture("BlackQueen.png");
+        }
     }
 
     private ArrayList<Position> rookPositions(ArrayList<Position> actuallypossible, boolean[] checks, int i, iTile tile) {

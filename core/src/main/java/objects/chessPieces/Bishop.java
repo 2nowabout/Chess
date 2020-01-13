@@ -12,12 +12,12 @@ public class Bishop extends Chesspieces {
 
     public Bishop(boolean white, int x, int y) {
         super(white, x, y);
+        fieldPoints = generator.BishopPoints();
         if (white) {
-            texture = new Texture("WhiteBishop.png");
+            points = 30;
         } else {
-            texture = new Texture("BlackBishop.png");
+            points = -30;
         }
-        points = 30;
     }
 
     @Override
@@ -64,14 +64,21 @@ public class Bishop extends Chesspieces {
                 check3 = false;
                 teamhit = false;
                 firstenemy = true;
-            }
-            else
-            {
+            } else {
                 teamhit = false;
                 firstenemy = true;
             }
         }
         possibleMoves = actuallypossible;
+    }
+
+    @Override
+    public void loadTextures() {
+        if (white) {
+            texture = new Texture("WhiteBishop.png");
+        } else {
+            texture = new Texture("BlackBishop.png");
+        }
     }
 
     private ArrayList<Position> checkTile(iTile tile, ArrayList<Position> actuallypossiblebegin, int newx, int newy) {

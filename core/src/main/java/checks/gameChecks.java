@@ -43,9 +43,9 @@ public class gameChecks implements iGameChecks {
     }
 
     public void checkKings(GameStateManager gsm, ArrayList<iTile> bord) {
-        if (checkKingsCheck.checkKings(gsm, bord, true)) {
+        if (checkKingsCheck.checkKings(bord, true)) {
             blackWon = true;
-        } else if (checkKingsCheck.checkKings(gsm, bord, false)) {
+        } else if (checkKingsCheck.checkKings(bord, false)) {
             whiteWon = true;
         }
     }

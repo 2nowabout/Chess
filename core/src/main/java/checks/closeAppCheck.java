@@ -7,8 +7,5 @@ public class closeAppCheck {
 
     public void closeApp()
     {
-        if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {  //exit game if escape is pressed
-            Gdx.app.exit();
-        }
     }
 }

@@ -13,13 +13,13 @@ public class King extends Chesspieces {
 
     public King(boolean white, int x, int y) {
         super(white, x, y);
-        if (white) {
-            texture = new Texture("WhiteKing.png");
-        } else {
-            texture = new Texture("BlackKing.png");
-        }
+        fieldPoints = generator.KingPoints();
         isKing = true;
-        points = 900;
+        if (white) {
+            points = 900;
+        } else {
+            points = -900;
+        }
     }
 
     @Override
@@ -40,33 +40,37 @@ public class King extends Chesspieces {
         possibleMoves.add(pos);
         pos = new Position(x + 1, y - 1);
         possibleMoves.add(pos);
+
         possibleMoves.removeAll(notPossibleMoves(tiles));
     }
 
-    public void checkChecked(ArrayList<iTile> tiles)
-    {
+    @Override
+    public void loadTextures() {
+        if (white) {
+            texture = new Texture("WhiteKing.png");
+        } else {
+            texture = new Texture("BlackKing.png");
+        }
+    }
+
+    public void checkChecked(ArrayList<iTile> tiles) {
         ArrayList<Position> allenemysmoves = new ArrayList<>();
         ArrayList<Chesspieces> enemypieces = new ArrayList<>();
-        for (iTile tile: tiles) {
-            if(tile.hasChesspiece())
-            {
-                if(white && !tile.getChesspieces().white)
-                {
+        for (iTile tile : tiles) {
+            if (tile.hasChesspiece()) {
+                if (white && !tile.getChesspieces().white) {
                     enemypieces.add(tile.getChesspieces());
-                }
-                else if(!white && tile.getChesspieces().white)
-                {
+                } else if (!white && tile.getChesspieces().white) {
                     enemypieces.add(tile.getChesspieces());
                 }
             }
         }
-        for (Chesspieces piece: enemypieces) {
+        for (Chesspieces piece : enemypieces) {
             piece.calculateMoves(tiles);
             allenemysmoves.addAll(piece.possibleMoves);
         }
-        for (Position position: allenemysmoves) {
-            if(position.getX() == x && position.getY() == y)
-            {
+        for (Position position : allenemysmoves) {
+            if (position.getX() == x && position.getY() == y) {
                 checked = true;
                 return;
             }
@@ -80,8 +84,10 @@ public class King extends Chesspieces {
         ArrayList<Position> allmovesenemy = new ArrayList<>();
         enemys = getAllEnemys(tiles);
         for (Chesspieces chess : enemys) {
+            /*if(!chess.isKing) {*/
             chess.calculateMoves(tiles);
             allmovesenemy.addAll(chess.possibleMoves);
+            //}
         }
         List<Position> positionsToRemove = new ArrayList<>();
         for (Position kingmoves : possibleMoves) {
@@ -93,8 +99,7 @@ public class King extends Chesspieces {
         }
         notPossibleMoves.addAll(positionsToRemove);
         for (Position pos : possibleMoves) {
-            if(pos.getX() < 0 || pos.getX() > 9 || pos.getY() < 0 || pos.getY() > 9)
-            {
+            if (pos.getX() < 0 || pos.getX() > 9 || pos.getY() < 0 || pos.getY() > 9) {
                 notPossibleMoves.add(pos);
             }
             for (iTile tile : tiles) {
@@ -114,8 +119,7 @@ public class King extends Chesspieces {
         ArrayList<Chesspieces> enemys = new ArrayList<>();
         ArrayList<Position> allmovesenemy = new ArrayList<>();
         ArrayList<Position> allkingmoves;
-        if(!checked)
-        {
+        if (!checked) {
             return false;
         }
         enemys = getAllEnemys(tiles);
@@ -141,20 +145,19 @@ public class King extends Chesspieces {
         }
     }
 
-    private ArrayList<Chesspieces> getAllEnemys(List<iTile> tiles)
-    {
+    private ArrayList<Chesspieces> getAllEnemys(List<iTile> tiles) {
         ArrayList<Chesspieces> chesspieces = new ArrayList<>();
         for (iTile tile : tiles) {
             if (tile.hasChesspiece()) {
                 if (white) {
                     if (!tile.getChesspieces().white) {
-                        if(!tile.getChesspieces().isKing) {
+                        if (!tile.getChesspieces().isKing) {
                             chesspieces.add(tile.getChesspieces());
                         }
                     }
                 } else {
                     if (tile.getChesspieces().white) {
-                        if(!tile.getChesspieces().isKing) {
+                        if (!tile.getChesspieces().isKing) {
                             chesspieces.add(tile.getChesspieces());
                         }
                     }
@@ -164,5 +167,7 @@ public class King extends Chesspieces {
         return chesspieces;
     }
 
-    public boolean isChecked() { return checked; }
+    public boolean isChecked() {
+        return checked;
+    }
 }

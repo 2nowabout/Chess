@@ -8,7 +8,7 @@ import javax.websocket.Session;
 import javax.websocket.WebSocketContainer;
 
 public class Websocket {
-    private final static String uri = "ws://localhost:8096/Chess/";
+    private final static String uri = "ws://192.168.0.107:8096/Chess/";
     Session session;
     private jsonCreator jsonCreator;
     public Websocket(){

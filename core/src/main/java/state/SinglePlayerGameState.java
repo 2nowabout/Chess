@@ -5,13 +5,13 @@ import checks.gameChecks;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import drawWin.DrawWins;
+import draw.Draw;
+import draw.DrawWins;
 import functions.generateBord;
 import interfaces.*;
 import objects.Buttons;
 import objects.chessPieces.Pawn;
 import saveLibraries.Position;
-
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -22,6 +22,8 @@ public class SinglePlayerGameState extends State {
     private boolean clickedOnChesspiece = false;
     private boolean settingsOpen;
     private boolean youAreWhite;
+    private boolean turn;
+    private boolean needToCheck;
 
     private iButtons settingsButton;
     private iGameChecks checks;
@@ -31,7 +33,7 @@ public class SinglePlayerGameState extends State {
     private iTile selectedChessPiece;
     private iBot bot;
     private State settings;
-    private DrawWins drawWins;
+    private Draw draw;
 
     protected SinglePlayerGameState(GameStateManager gsm) {
         super(gsm);
@@ -42,15 +44,20 @@ public class SinglePlayerGameState extends State {
         bord = bordGenerator.generate(); //generate start layout
         checks = new gameChecks();
         settingsButton = new Buttons(Gdx.graphics.getWidth() - 200, Gdx.graphics.getHeight() - 100, "", 50, 50, "settings.png");
-        bot = new Bot(bord);
+        bot = new Bot(bord, 4, this);
         youAreWhite = true;
         settings = new Settings(gsm, this);
-        drawWins = new DrawWins();
+        draw = new Draw();
+        turn = true;
     }
 
     @Override
     protected void handleInput() {
         checks.closeApp();
+        if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {  //exit game if escape is pressed
+            bot.shutdown();
+            Gdx.app.exit();
+        }
         Rectangle mouseRectangle = new Rectangle(Gdx.input.getX(), Gdx.input.getY(), 1, 1); //get mouse position
         mouseRectangle.y = Gdx.graphics.getHeight() - mouseRectangle.y; // invert y, this is already inverted in the game
         settingsOpen = checks.openSettingsCheck(settingsButton, mouseRectangle, settingsOpen);
@@ -66,7 +73,6 @@ public class SinglePlayerGameState extends State {
                 chesspieceMoveActionCheck(tile, mouseRectangle);
             }
         }
-        checks.checkKings(gsm, bord);
     }
 
     @Override
@@ -77,16 +83,14 @@ public class SinglePlayerGameState extends State {
             checks.checkTile(tile, canMovePosition, dt);
             settingsButton.update(dt);
         }
+        if(needToCheck) {
+            checks.checkKings(gsm, bord);
+            checks.checkKingsdead(gsm, bord);
+            needToCheck = false;
+        }
         handleInput();
         if (settingsOpen) {
             settings.update(dt);
-        }
-        checks.checkKings(gsm, bord);
-        checks.checkKingsdead(gsm, bord);
-        if (checks.hasBlackWon()) {
-
-        } else if (checks.hasWhiteWon()) {
-
         }
     }
 
@@ -100,7 +104,7 @@ public class SinglePlayerGameState extends State {
         if (settingsOpen) {
             settings.render(sb);
         }
-        drawWins.drawWin(sb, checks.hasBlackWon(), checks.hasWhiteWon());
+        draw.DrawWin(sb, checks.hasBlackWon(), checks.hasWhiteWon());
         sb.end();
     }
 
@@ -112,7 +116,7 @@ public class SinglePlayerGameState extends State {
     }
 
     private void checkSelectedPiece(iTile tile, Rectangle mouseRectangle) {
-        if (tile.getChesspieces().getRectangle().intersects(mouseRectangle) && youAreWhite == tile.getChesspieces().getColor()) { // check if mouse rectangle is on a chesspiece
+        if (tile.getChesspieces().getRectangle().intersects(mouseRectangle) && youAreWhite == tile.getChesspieces().getColor() && turn) { // check if mouse rectangle is on a chesspiece
             if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) { // if user clicks on the chesspiece
                 tile.getChesspieces().calculateMoves(bord);
                 canMovePosition = tile.getChesspieces().getPossibleMoves();
@@ -123,6 +127,7 @@ public class SinglePlayerGameState extends State {
     }
 
     private void endTurn() {
+        switchTurn();
         bot.updateBord(bord);
         bot.act();
     }
@@ -149,6 +154,7 @@ public class SinglePlayerGameState extends State {
                             tileRemove.getChesspieces().resetMoves();
                             canMovePosition = new ArrayList<>();
                             tileRemove.removeChestpiece();
+                            needToCheck = true;
                             endTurn();
                         }
                     }
@@ -160,4 +166,5 @@ public class SinglePlayerGameState extends State {
     public void setSettingsOpen(boolean settingsOpen) {
         this.settingsOpen = settingsOpen;
     }
+    public void switchTurn() { turn = !turn; }
 }

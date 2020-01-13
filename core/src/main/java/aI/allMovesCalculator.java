@@ -10,22 +10,36 @@ import java.util.List;
 
 public class allMovesCalculator {
 
-    public List<Moves> calcAllMoves(List<Chesspieces> pieces, ArrayList<iTile> bord)
+    public List<Moves> calcAllMoves(List<Chesspieces> pieces, List<iTile> bord)
     {
         List<Moves> CheckMoves = new ArrayList<>();
+        ArrayList<iTile> tiles = new ArrayList<>(bord);
         for (Chesspieces chesspiece: pieces) {
-            chesspiece.calculateMoves(bord);
-            for (Position pos: chesspiece.getPossibleMoves()) {
-                for (iTile tile: bord) {
-                    if(tile.getX() == pos.getX() && tile.getY() == pos.getY())
-                    {
+            chesspiece.resetMoves();
+            chesspiece.calculateMoves(tiles);
+            ArrayList<Position> chessPieceMoves = chesspiece.getPossibleMoves();
+            if(!chessPieceMoves.isEmpty()) {
+                for (Position pos : chessPieceMoves) {
+                    for (iTile tile : bord) {
+                        Moves toAdd = null;
                         if(tile.hasChesspiece())
                         {
-                            CheckMoves.add(new Moves(tile.getChesspieces().getPoints(), tile, chesspiece));
+                            if(tile.getX() == pos.getX() && tile.getY() == pos.getY())
+                            {
+                                toAdd = new Moves(tile.getChesspieces().getPoints(), tile, chesspiece);
+                                toAdd.addPoints(chesspiece.getFieldPoints().get(tile.getY()).get(tile.getX()));
+                                CheckMoves.add(toAdd);
+                            }
+                        }
+                        else if (!tile.hasChesspiece() && tile.getX() == pos.getX() && tile.getY() == pos.getY()) {
+                            toAdd = new Moves(0, tile, chesspiece);
+                            toAdd.addPoints(chesspiece.getFieldPoints().get(tile.getY()).get(tile.getX()));
+                            CheckMoves.add(toAdd);
                         }
                     }
                 }
             }
+            chesspiece.resetMoves();
         }
         return CheckMoves;
     }

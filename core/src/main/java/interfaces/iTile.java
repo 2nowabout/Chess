@@ -19,4 +19,6 @@ public interface iTile {
     int getX();
     int getY();
     Rectangle getRectangle();
+    void setTextures(String texture);
+    void removeTextures();
 }

@@ -79,7 +79,6 @@ public class GameState extends State {
                 chesspieceMoveActionCheck(tile, mouseRectangle);
             }
         }
-        checks.checkKings(gsm, bord);
     }
 
     @Override
@@ -94,8 +93,6 @@ public class GameState extends State {
         if (settingsOpen) {
             settings.update(dt);
         }
-        checks.checkKings(gsm, bord);
-        checks.checkKingsdead(gsm, bord);
         if(checks.hasWhiteWon() || checks.hasBlackWon())
         {
             winCheck.checkIfWon(youAreWhite, messageCreator, checks);
@@ -160,6 +157,8 @@ public class GameState extends State {
                             canMovePosition = new ArrayList<>();
                             tileRemove.removeChestpiece();
                             MessageSender.broadcast(messageCreator.moveMessage(tileRemove, tile, youAreWhite));
+                            checks.checkKings(gsm, bord);
+                            checks.checkKingsdead(gsm, bord);
                             endTurn();
                         }
                     }

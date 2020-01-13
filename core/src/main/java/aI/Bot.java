@@ -1,49 +1,98 @@
 package aI;
 
+import objects.Tile;
 import saveLibraries.Moves;
 import interfaces.iBot;
 import interfaces.iTile;
 import objects.chessPieces.Chesspieces;
 import saveLibraries.Position;
+import state.SinglePlayerGameState;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class Bot implements iBot {
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.ThreadPoolExecutor;
+
+public class Bot implements iBot, Runnable {
     private ArrayList<iTile> bord;
+    private SinglePlayerGameState single;
+/*
     private List<Chesspieces> enemyChesspieces;
     private List<Chesspieces> botChesspieces;
     private List<Position> possibleEnemyPositions;
     private List<Position> possibleAllyPositions;
-    private bestMoveCalculator calculator = new bestMoveCalculator();
     allMovesCalculator allmovescalc = new allMovesCalculator();
+    private bestMoveCalculator calculator = new bestMoveCalculator();*/
+    private MinMaxAlgorithm algorithm;
+    ThreadPoolExecutor pool;
 
-    public Bot(ArrayList<iTile> tiles)
+    public Bot(ArrayList<iTile> tiles, int depth, SinglePlayerGameState single)
     {
-        bord = tiles;
+        this.single = single;
+        algorithm = new MinMaxAlgorithm(depth, single);
+        pool = (ThreadPoolExecutor) Executors.newFixedThreadPool(1);
     }
 
     public void updateBord(ArrayList<iTile> tiles)
     {
         bord = tiles;
+        ArrayList<iTile> botBord = BotMakeFakeBordCopy.generateFakeBord(tiles);
+        System.out.println(botBord.size());
+        algorithm.updateBord(botBord);
+    }
+
+    @Override
+    public void run() {
+        Future result = pool.submit(algorithm);
+        try {
+            Moves move = (Moves) result.get();
+            iTile oldTile = null;
+            iTile newTile = null;
+            for (iTile tile : bord)
+            {
+                if (tile.getX() == move.getChesspieces().getX() && tile.getY() == move.getChesspieces().getY()) {
+                    oldTile = tile;
+                }
+                else if (tile.getX() == move.getTile().getX() && tile.getY() == move.getTile().getY()) {
+                    newTile = tile;
+                }
+            }
+            newTile.setChesspieces(oldTile.getChesspieces());
+            oldTile.removeChestpiece();
+            single.switchTurn();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public void shutdown()
+    {
+        pool.shutdown();
     }
 
     public void act()
     {
-        enemyChesspieces = new ArrayList<>();
+        Thread thread1 = new Thread(this);
+        thread1.run();
+
+        /*enemyChesspieces = new ArrayList<>();
         botChesspieces = new ArrayList<>();
         possibleAllyPositions = new ArrayList<>();
         possibleEnemyPositions = new ArrayList<>();
         List<iTile> toRemove = getAlliesAndEnemys();
         List<Moves> CheckMoves =  allmovescalc.calcAllMoves(botChesspieces, bord);
 
-/*        for (Chesspieces chesspiece : enemyChesspieces) {
+*//*        for (Chesspieces chesspiece : enemyChesspieces) {
             chesspiece.calculateMoves(bord);
             if(!chesspiece.getPossibleMoves().isEmpty() || chesspiece.getPossibleMoves() != null) {
                 possibleEnemyPositions.addAll(chesspiece.getPossibleMoves());
             }
-        }*/
+        }*//*
 
         Random rnd = new Random();
         boolean canWork = false;
@@ -87,15 +136,11 @@ public class Bot implements iBot {
             }
         }
 
-        chesspiece.resetMoves();
+        chesspiece.resetMoves();*/
     }
 
-    private void minMaxAlgorithm()
-    {
-
-    }
-
-    private List<iTile> getAlliesAndEnemys()
+/*
+    private List<iTile> getAlliesAndEnemies()
     {
         List<iTile> toRemove = new ArrayList<>();
         for (iTile tile: bord) {
@@ -114,5 +159,5 @@ public class Bot implements iBot {
             }
         }
         return toRemove;
-    }
+    }*/
 }
