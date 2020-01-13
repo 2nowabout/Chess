@@ -44,7 +44,7 @@ public class SinglePlayerGameState extends State {
         bord = bordGenerator.generate(); //generate start layout
         checks = new gameChecks();
         settingsButton = new Buttons(Gdx.graphics.getWidth() - 200, Gdx.graphics.getHeight() - 100, "", 50, 50, "settings.png");
-        bot = new Bot(bord, 4, this);
+        bot = new Bot(bord, 2, this);
         youAreWhite = true;
         settings = new Settings(gsm, this);
         draw = new Draw();
