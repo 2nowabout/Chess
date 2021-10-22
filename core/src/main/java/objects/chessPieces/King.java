@@ -13,7 +13,6 @@ public class King extends Chesspieces {
 
     public King(boolean white, int x, int y) {
         super(white, x, y);
-        fieldPoints = generator.KingPoints();
         isKing = true;
         if (white) {
             points = 900;
@@ -51,6 +50,11 @@ public class King extends Chesspieces {
         } else {
             texture = new Texture("BlackKing.png");
         }
+    }
+
+    @Override
+    public ArrayList<ArrayList<Double>> getFieldPoints() {
+        return generator.KingPoints();
     }
 
     public void checkChecked(ArrayList<iTile> tiles) {

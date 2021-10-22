@@ -10,7 +10,6 @@ public class Knight extends Chesspieces {
 
     public Knight(boolean white, int x, int y) {
         super(white, x, y);
-        fieldPoints = generator.KnightPoints();
         if (white) {
             points = 30;
         } else {
@@ -46,6 +45,11 @@ public class Knight extends Chesspieces {
         } else {
             texture = new Texture("BlackKnight.png");
         }
+    }
+
+    @Override
+    public ArrayList<ArrayList<Double>> getFieldPoints() {
+        return generator.KingPoints();
     }
 
     private ArrayList<Position> notPossibleMoves(ArrayList<iTile> tiles) {

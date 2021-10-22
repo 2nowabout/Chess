@@ -33,7 +33,7 @@ public class Bot implements iBot, Runnable {
     {
         this.single = single;
         algorithm = new MinMaxAlgorithm(depth, single);
-        pool = (ThreadPoolExecutor) Executors.newFixedThreadPool(1);
+        pool = (ThreadPoolExecutor) Executors.newFixedThreadPool(4);
     }
 
     public void updateBord(ArrayList<iTile> tiles)
