@@ -13,7 +13,6 @@ public class Queen extends Chesspieces {
 
     public Queen(boolean white, int x, int y) {
         super(white, x, y);
-        fieldPoints = generator.QueenPoints();
         if (white) {
             points = 90;
         } else {
@@ -56,6 +55,11 @@ public class Queen extends Chesspieces {
         } else {
             texture = new Texture("BlackQueen.png");
         }
+    }
+
+    @Override
+    public ArrayList<ArrayList<Double>> getFieldPoints() {
+        return generator.QueenPoints();
     }
 
     private ArrayList<Position> rookPositions(ArrayList<Position> actuallypossible, boolean[] checks, int i, iTile tile) {

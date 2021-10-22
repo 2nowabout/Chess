@@ -12,7 +12,6 @@ public class Bishop extends Chesspieces {
 
     public Bishop(boolean white, int x, int y) {
         super(white, x, y);
-        fieldPoints = generator.BishopPoints();
         if (white) {
             points = 30;
         } else {
@@ -79,6 +78,11 @@ public class Bishop extends Chesspieces {
         } else {
             texture = new Texture("BlackBishop.png");
         }
+    }
+
+    @Override
+    public ArrayList<ArrayList<Double>> getFieldPoints() {
+        return generator.BishopPoints();
     }
 
     private ArrayList<Position> checkTile(iTile tile, ArrayList<Position> actuallypossiblebegin, int newx, int newy) {

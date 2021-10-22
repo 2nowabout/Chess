@@ -12,7 +12,6 @@ public class Pawn extends Chesspieces {
 
     public Pawn(boolean white, int x, int y) {
         super(white, x, y);
-        fieldPoints = generator.PawnPoints();
         isPawn = true;
         if (white) {
             points = 10;
@@ -99,6 +98,11 @@ public class Pawn extends Chesspieces {
         } else {
             texture = new Texture("BlackPawn.png");
         }
+    }
+
+    @Override
+    public ArrayList<ArrayList<Double>> getFieldPoints() {
+        return generator.PawnPoints();
     }
 
     public void setFirstmove(boolean firstmove) {

@@ -28,8 +28,6 @@ public abstract class Chesspieces {
 
     protected ArrayList<Position> possibleMoves;
 
-    protected ArrayList<ArrayList<Double>> fieldPoints;
-
     protected FieldPointsGenerator generator;
 
     public Chesspieces(boolean white, int x, int y)
@@ -45,7 +43,9 @@ public abstract class Chesspieces {
     }
 
     public Chesspieces clone(Chesspieces piece){
-        return ChessPieceClone.checkChessPiece(piece);
+        Chesspieces chesspieces = ChessPieceClone.checkChessPiece(piece);
+        chesspieces.removeTextures();
+        return chesspieces;
     }
 
     public abstract void calculateMoves(ArrayList<iTile> tiles);
@@ -72,5 +72,5 @@ public abstract class Chesspieces {
     public int getPoints() { return points; }
     public int getX() { return x; }
     public int getY() { return y; }
-    public ArrayList<ArrayList<Double>> getFieldPoints() { return fieldPoints; }
+    public abstract ArrayList<ArrayList<Double>> getFieldPoints();
 }
