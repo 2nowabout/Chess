@@ -1,3 +1,18 @@
+plugins {
+    id "jacoco"
+    id "org.sonarqube" version "2.7.1"
+
+}
+jacocoTestReport {
+    reports{
+        xml.enabled true
+    }
+}
+
+plugins.withType(JacocoPlugin)
+        {
+            tasks["test"].finalizedBy 'jacocoTestReport'
+        }
 apply plugin: "java"
 apply plugin: 'eclipse'
 apply plugin: 'maven'

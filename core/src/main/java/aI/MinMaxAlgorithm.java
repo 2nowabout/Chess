@@ -74,7 +74,8 @@ public class MinMaxAlgorithm implements Callable {
                  toReturn = move;
             }
         }
-
+        single.enemyTurn(toReturn);
+        single.switchTurn();
         return toReturn;
         //TODO get best move in right order and return next move bot has too do
     }

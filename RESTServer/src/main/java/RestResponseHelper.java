@@ -2,6 +2,8 @@ import com.google.gson.Gson;
 import restShared.AccountResponse;
 
 public class RestResponseHelper {
+    private RestResponseHelper()
+    {     }
 
     private static final Gson gson = new Gson();
 
@@ -18,7 +20,6 @@ public class RestResponseHelper {
     }
 
     static String getSingleAccountResponse() {
-        //TODO
         return null;
     }
 }

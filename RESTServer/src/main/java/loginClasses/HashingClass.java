@@ -3,6 +3,7 @@ package loginClasses;
 import org.mindrot.jbcrypt.BCrypt;
 
 public class HashingClass {
+    private HashingClass(){}
 
     private static int workload = 12;
 

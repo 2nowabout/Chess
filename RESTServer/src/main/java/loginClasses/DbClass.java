@@ -8,17 +8,12 @@ import java.util.Map;
 
 public class DbClass {
 
-    private String url;
-    private String username;
-    private String password;
     private Connection connection = null;
 
-    public DbClass() {
-    }
     public void executeNonQuery(String procedure, Map map){
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
-            connection = DriverManager.getConnection("jdbc:mysql://192.168.0.107:3306/chess", "root", "");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chess", "root", "");
             PreparedStatement statement = connection.prepareStatement(procedure);
 
             for (int i = 1; i < map.size() + 1; i++) {
@@ -38,7 +33,7 @@ public class DbClass {
         ResultSet resultSet = null;
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
-            connection = DriverManager.getConnection("jdbc:mysql://192.168.0.107:3306/chess", "root", "");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chess", "root", "");
             PreparedStatement statement = connection.prepareStatement(procedure);
 
             for (int i = 1; i <= map.size(); i++) {

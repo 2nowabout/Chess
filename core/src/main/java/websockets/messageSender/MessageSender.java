@@ -7,7 +7,7 @@ import java.io.IOException;
 
 public class MessageSender {
     private static Session session;
-    MessageSender(Session session)
+    public MessageSender(Session session)
     {
         this.session = session;
     }
