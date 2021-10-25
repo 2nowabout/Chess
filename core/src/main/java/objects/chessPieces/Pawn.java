@@ -2,9 +2,11 @@ package objects.chessPieces;
 
 import com.badlogic.gdx.graphics.Texture;
 import interfaces.iTile;
+import objects.ChessPiecesFunctions.FieldPointsGenerator;
 import saveLibraries.Position;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class Pawn extends Chesspieces {
 
@@ -89,6 +91,7 @@ public class Pawn extends Chesspieces {
                 }
             }
         }
+        possibleMoves = new ArrayList<>(new HashSet<>(possibleMoves));
     }
 
     @Override
@@ -102,7 +105,7 @@ public class Pawn extends Chesspieces {
 
     @Override
     public ArrayList<ArrayList<Double>> getFieldPoints() {
-        return generator.PawnPoints();
+        return FieldPointsGenerator.PawnPoints();
     }
 
     public void setFirstmove(boolean firstmove) {

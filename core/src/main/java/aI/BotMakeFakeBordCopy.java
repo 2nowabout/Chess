@@ -16,6 +16,7 @@ public class BotMakeFakeBordCopy {
             if(tile.hasChesspiece()) {
                 Chesspieces chesspieces = tile.getChesspieces().clone(tile.getChesspieces());
                 toAddTile.setChesspieces(chesspieces);
+                toAddTile.update(1);
             }
             newbord.add(toAddTile);
         }

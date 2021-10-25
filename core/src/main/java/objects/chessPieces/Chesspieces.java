@@ -28,8 +28,6 @@ public abstract class Chesspieces {
 
     protected ArrayList<Position> possibleMoves;
 
-    protected FieldPointsGenerator generator;
-
     public Chesspieces(boolean white, int x, int y)
     {
         this.field = field;
@@ -39,7 +37,6 @@ public abstract class Chesspieces {
         isKing = false;
         isPawn = false;
         possibleMoves = new ArrayList<>();
-        generator = new FieldPointsGenerator();
     }
 
     public Chesspieces clone(Chesspieces piece){
@@ -50,7 +47,7 @@ public abstract class Chesspieces {
 
     public abstract void calculateMoves(ArrayList<iTile> tiles);
     public abstract void loadTextures();
-    public void removeTextures() { texture = null; }
+    public void removeTextures() { texture = null; rectangle = null; }
     public void render(SpriteBatch batch, int renderX, int renderY, int width, int height) { batch.draw(texture, renderX, renderY, width, height); }
     public void update(float dt, int renderX, int renderY, int x, int y) { rectangle = new Rectangle(renderX, renderY, 100, 100); this.x = x; this.y = y; }
     public Rectangle getRectangle() {

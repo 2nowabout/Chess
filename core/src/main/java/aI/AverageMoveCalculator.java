@@ -13,7 +13,7 @@ public class AverageMoveCalculator {
         for (Moves move: allmoves) {
             average += move.getPoints();
         }
-        average = average / allmoves.size();
+        average = average / (allmoves.size() +1);
         return average;
     }
     public ArrayList<String> testListToArray (List<String> test)

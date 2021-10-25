@@ -20,6 +20,7 @@ public class Moves {
     public iTile getTile() { return tile; }
     public Chesspieces getChesspieces() { return chesspieces; }
     public void addPoints(double value) { points = points + value; }
+    public void removePoints(double value) { points = points - value; }
     public int getID() { return ID; }
     public void setID(int ID) { this.ID = ID; }
 }

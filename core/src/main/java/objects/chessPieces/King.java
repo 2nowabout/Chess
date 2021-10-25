@@ -2,6 +2,7 @@ package objects.chessPieces;
 
 import com.badlogic.gdx.graphics.Texture;
 import interfaces.iTile;
+import objects.ChessPiecesFunctions.FieldPointsGenerator;
 import saveLibraries.Position;
 
 import java.util.ArrayList;
@@ -54,7 +55,7 @@ public class King extends Chesspieces {
 
     @Override
     public ArrayList<ArrayList<Double>> getFieldPoints() {
-        return generator.KingPoints();
+        return FieldPointsGenerator.KingPoints();
     }
 
     public void checkChecked(ArrayList<iTile> tiles) {

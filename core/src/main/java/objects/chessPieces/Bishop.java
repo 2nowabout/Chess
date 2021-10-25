@@ -2,6 +2,7 @@ package objects.chessPieces;
 
 import com.badlogic.gdx.graphics.Texture;
 import interfaces.iTile;
+import objects.ChessPiecesFunctions.FieldPointsGenerator;
 import saveLibraries.Position;
 
 import java.util.ArrayList;
@@ -82,7 +83,7 @@ public class Bishop extends Chesspieces {
 
     @Override
     public ArrayList<ArrayList<Double>> getFieldPoints() {
-        return generator.BishopPoints();
+        return FieldPointsGenerator.BishopPoints();
     }
 
     private ArrayList<Position> checkTile(iTile tile, ArrayList<Position> actuallypossiblebegin, int newx, int newy) {

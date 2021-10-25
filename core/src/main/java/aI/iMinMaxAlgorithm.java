@@ -9,4 +9,6 @@ public interface iMinMaxAlgorithm {
     void algorithm(List<BordAndMoves> borden, boolean first);
     List<BordAndMoves> getAllBorden();
     List<Moves> getMoves();
+    void EmptyFirstMoves();
+    void Reset();
 }

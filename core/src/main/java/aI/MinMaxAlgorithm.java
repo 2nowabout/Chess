@@ -14,7 +14,6 @@ public class MinMaxAlgorithm implements Callable {
     private int depth;
     private List<iTile> bord;
     private List<BordAndMoves> borden;
-    private List<BordAndMoves> finalMoves;
     private List<Moves> firstMoves;
     private SinglePlayerGameState single;
 
@@ -48,13 +47,16 @@ public class MinMaxAlgorithm implements Callable {
             if (first) {
                 firstMoves = max.getMoves();
             }
+            max.EmptyFirstMoves();
             first = false;
             System.out.println(max.getAllBorden().size());
             long beginmin = System.nanoTime();
             min.algorithm(max.getAllBorden(), first);
+            max.Reset();
             long endmin = System.nanoTime();
             System.out.println(min.getAllBorden().size());
             borden = min.getAllBorden();
+            min.Reset();
             System.out.println("one depth done");
             checkAlgoTime(beginmin, endmin);
         }
@@ -74,7 +76,10 @@ public class MinMaxAlgorithm implements Callable {
                  toReturn = move;
             }
         }
+        max.Reset();
+        min.Reset();
         single.enemyTurn(toReturn);
+
         single.switchTurn();
         return toReturn;
         //TODO get best move in right order and return next move bot has too do

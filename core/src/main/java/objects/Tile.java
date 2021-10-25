@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import interfaces.iTile;
+import objects.ChessPiecesFunctions.TilePositionGenerator;
 import objects.chessPieces.Chesspieces;
 import objects.chessPieces.King;
 
@@ -24,22 +25,19 @@ public class Tile implements iTile {
     private int renderY;
     private int x;
     private int y;
-    private String postiontext;
-    private BitmapFont font;
+    private static BitmapFont font = new BitmapFont();
     private Chesspieces chesspieces;
-    private Character[] vertical = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'};
 
     public Tile(int renderX, int renderY, int x, int y) {
         this.renderX = renderX;
         this.renderY = renderY;
         this.x = x;
         this.y = y;
-        postiontext = vertical[y].toString() + (x + 1);
     }
 
     public void render(SpriteBatch batch) {
         batch.draw(texture, renderX, renderY, WIDTH, HEIGHT);
-        font.draw(batch, postiontext, (renderX + (texture.getWidth() / 2)), (renderY + (texture.getHeight() / 2)));
+        font.draw(batch, TilePositionGenerator.getPositionString(x,y), (renderX + (texture.getWidth() / 2)), (renderY + (texture.getHeight() / 2)));
         if (chesspieces != null) {
             if(!chesspieces.isDead()) {
                 chesspieces.render(batch, renderX, renderY, WIDTH, HEIGHT);
@@ -64,7 +62,6 @@ public class Tile implements iTile {
         if (chesspieces != null) {
             chesspieces.update(dt, renderX, renderY, this.x, this.y);
         }
-        rectangle = new Rectangle(renderX, renderY, 100, 100);
     }
     public void removeChestpiece() {
         this.chesspieces = null;
@@ -100,12 +97,13 @@ public class Tile implements iTile {
         possibleTexture = new Texture("PossibleTile.png");
         this.texture = new Texture(texture);
         kingChecked = new Texture("kingChecked.png");
-        font = new BitmapFont();
+        rectangle = new Rectangle(renderX, renderY, 100, 100);
     }
     public void removeTextures()
     {
         possibleTexture = null;
         texture = null;
         kingChecked = null;
+        rectangle = null;
     }
 }

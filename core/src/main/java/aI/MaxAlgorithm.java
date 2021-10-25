@@ -33,7 +33,13 @@ public class MaxAlgorithm implements iMinMaxAlgorithm {
         for (BordAndMoves lists : borden) {
             acceptedmoves = new ArrayList<>();
             List<Chesspieces> allies = getChesspieces.getAllyChessPieces(lists.getBord());
-            List<Moves> allmoves = allMovesCalculator.calcAllMoves(allies, lists.getBord());
+            List<Moves> allmoves;
+            if(lists.getMove() == null) {
+                allmoves = allMovesCalculator.calcAllMoves(allies, lists.getBord(), 0, true);
+            }
+            else {
+                allmoves = allMovesCalculator.calcAllMoves(allies, lists.getBord(), lists.getMove().getPoints(),true);
+            }
             allmoves = addIDOnMoves.AddIDToMoves(allmoves, first, lists);
             double average = averageCalculator.calculateAverage(allmoves);
             for (Moves move : allmoves) {
@@ -44,6 +50,8 @@ public class MaxAlgorithm implements iMinMaxAlgorithm {
                     moves.add(forMoves);
                 }
             }
+            allies = new ArrayList<>();
+            allmoves = new ArrayList<>();
             for (Moves move : acceptedmoves) {
                 BordAndMoves toAdd = new BordAndMoves(makeFields.doMoveAndMakeField(lists.getBord(), move), move);
                 allBorden.add(toAdd);
@@ -53,4 +61,10 @@ public class MaxAlgorithm implements iMinMaxAlgorithm {
 
     public List<BordAndMoves> getAllBorden() { return allBorden; }
     public List<Moves> getMoves() { return moves; }
+    public void EmptyFirstMoves() { moves = null; }
+    public void Reset() {
+        allBorden = new ArrayList<>();
+        acceptedmoves = new ArrayList<>();
+        moves = new ArrayList<>();
+    }
 }

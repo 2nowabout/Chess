@@ -2,6 +2,7 @@ package objects.chessPieces;
 
 import com.badlogic.gdx.graphics.Texture;
 import interfaces.iTile;
+import objects.ChessPiecesFunctions.FieldPointsGenerator;
 import saveLibraries.Position;
 
 import java.util.ArrayList;
@@ -59,7 +60,7 @@ public class Queen extends Chesspieces {
 
     @Override
     public ArrayList<ArrayList<Double>> getFieldPoints() {
-        return generator.QueenPoints();
+        return FieldPointsGenerator.QueenPoints();
     }
 
     private ArrayList<Position> rookPositions(ArrayList<Position> actuallypossible, boolean[] checks, int i, iTile tile) {

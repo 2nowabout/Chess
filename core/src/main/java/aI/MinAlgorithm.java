@@ -10,7 +10,6 @@ import java.util.List;
 public class MinAlgorithm implements iMinMaxAlgorithm {
     private List<BordAndMoves> allBorden;
     private List<Moves> acceptedmoves;
-    private List<Moves> moves;
     private BotGetChesspieces getChesspieces;
     private allMovesCalculator allMovesCalculator;
     private MakeFields makeFields;
@@ -25,14 +24,12 @@ public class MinAlgorithm implements iMinMaxAlgorithm {
         addIDOnMoves = new AddIDOnMoves();
     }
 
-    public void algorithm(List<BordAndMoves> borden, boolean first)
-    {
+    public void algorithm(List<BordAndMoves> borden, boolean first) {
         allBorden = new ArrayList<>();
-        moves = new ArrayList<>();
         for (BordAndMoves lists : borden) {
             acceptedmoves = new ArrayList<>();
             List<Chesspieces> enemys = getChesspieces.getEnemyChesspieces(lists.getBord());
-            List<Moves> allmoves = allMovesCalculator.calcAllMoves(enemys, lists.getBord());
+            List<Moves> allmoves = allMovesCalculator.calcAllMoves(enemys, lists.getBord(), lists.getMove().getPoints(), false);
             allmoves = addIDOnMoves.AddIDToMoves(allmoves, first, lists);
             double average = averageCalculator.calculateAverage(allmoves);
             for (Moves move : allmoves) {
@@ -40,14 +37,27 @@ public class MinAlgorithm implements iMinMaxAlgorithm {
                     acceptedmoves.add(move);
                 }
             }
+            enemys = new ArrayList<>();
+            allmoves = new ArrayList<>();
             for (Moves move : acceptedmoves) {
                 BordAndMoves toAdd = new BordAndMoves(makeFields.doMoveAndMakeField(lists.getBord(), move), move);
                 allBorden.add(toAdd);
             }
-            moves.addAll(acceptedmoves);
         }
     }
 
-    public List<BordAndMoves> getAllBorden() { return allBorden; }
-    public List<Moves> getMoves() { return moves; }
+    public List<BordAndMoves> getAllBorden() {
+        return allBorden;
+    }
+
+    public List<Moves> getMoves() {
+        return null;
+    }
+
+    public void EmptyFirstMoves() {
+    }
+    public void Reset() {
+        allBorden = new ArrayList<>();
+        acceptedmoves = new ArrayList<>();
+    }
 }
